@@ -29,7 +29,17 @@ android {
 }
 
 dependencies {
+    /*starts code*/
     //new added
+
+    /* firebase uygulamada Firebase Assistan ==> email password Authentication Asistans*/
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+
+    /* firebase uygulamada Firebase Assistan ==> realtime database */
+    implementation 'com.google.firebase:firebase-database:19.2.1'
+
+    /* firebase uygulamada Firebase Assistan ==>  Storage*/
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
 
     /* Glide:internetteki resimleri almak*/
     implementation 'com.github.bumptech.glide:glide:4.13.2'
@@ -50,4 +60,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    /*end codes*/
 }
