@@ -1,18 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="18dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+   <!-- layout_centerInParent: tam ortalamak-->
+    <ScrollView
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true">
+        <!--main LinearLayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/circle_profile"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/pictureMainId"/>
+
+            <!--email adress-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:textColor="#000000"
+                    android:hint="Kullanıcı Email Adresiniz"
+                    android:drawableLeft="@drawable/email"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/editTextLoginMailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--password-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/password"
+                    android:hint="Kullanıcı Parolanız"
+                    android:inputType="textPassword"
+                    android:id="@+id/editTextLoginPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--button-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:drawableLeft="@drawable/login"
+                    android:text="Giriş"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/buttonLogin"
+                    />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:drawableLeft="@drawable/register"
+                    android:text="Kayıt"
+                    android:id="@+id/buttonLoginRegister"
+                    />
+            </LinearLayout>  <!--end button-->
+
+            <!--google sigIn-->
+            <com.google.android.gms.common.SignInButton
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/buttonGoogleIndent"/>
+        </LinearLayout> <!--end linearLayout-->
+    </ScrollView><!--end main ScrollView-->
+</RelativeLayout><!--end main RelativeLayout-->
