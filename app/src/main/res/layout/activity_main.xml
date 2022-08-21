@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
+    android:paddingLeft="16dp"
     android:paddingTop="18dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:background="@drawable/background"
     tools:context=".MainActivity">
 
-   <!-- layout_centerInParent: tam ortalamak-->
+    <!-- layout_centerInParent: tam ortalamak-->
     <ScrollView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -23,41 +23,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- circle image view -->
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pictureMainId"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:src="@drawable/circle_profile"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/pictureMainId"/>
+                android:src="@drawable/circle_profile" />
 
             <!--email adress-->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
+                    android:id="@+id/editTextLoginMailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:textColor="#000000"
-                    android:hint="@string/hint_email"
-                    android:drawableLeft="@drawable/email"
                     android:layout_marginBottom="5dp"
-                    android:id="@+id/editTextLoginMailAddress" />
+                    android:background="#ffffff"
+                    android:drawableLeft="@drawable/email"
+                    android:hint="@string/hint_email"
+                    android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--password-->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
+                    android:id="@+id/editTextLoginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
-                    android:textColor="#000000"
                     android:drawableLeft="@drawable/password"
                     android:hint="@string/hint_password"
                     android:inputType="textPassword"
-                    android:id="@+id/editTextLoginPassword" />
+                    android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--button-->
@@ -65,39 +68,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:drawableLeft="@drawable/login"
-                    android:text="@string/button_login"
-                    android:layout_marginRight="5dp"
-                    android:id="@+id/buttonLogin" />
 
                 <Button
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:drawableLeft="@drawable/login"
+                    android:text="@string/button_login" />
+
+                <Button
+                    android:id="@+id/buttonLoginRegister"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:drawableLeft="@drawable/register"
-                    android:text="@string/button_register"
-                    android:id="@+id/buttonLoginRegister" />
+                    android:text="@string/button_register" />
+             </LinearLayout>  <!--end button-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--google sigIn-->
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/buttonGoogleIndent"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp" />
+
+                <Button
+                    android:id="@+id/buttonTelephone"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:drawableLeft="@drawable/telephone"
+                    android:text="@string/button_telephone" />
             </LinearLayout>  <!--end button-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!--google sigIn-->
-            <com.google.android.gms.common.SignInButton
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:id="@+id/buttonGoogleIndent"/>
-            <Button
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:drawableLeft="@drawable/telephone"
-                android:text="@string/button_telephone"
-                android:layout_marginRight="5dp"
-                android:id="@+id/buttonTelephone"
-                />
-        </LinearLayout>
         </LinearLayout> <!--end linearLayout-->
     </ScrollView><!--end main ScrollView-->
 </RelativeLayout><!--end main RelativeLayout-->
