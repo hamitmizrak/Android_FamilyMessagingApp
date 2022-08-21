@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Family Messaging App</string>
+    <string name="hint_email">Emailinizi giriniz</string>
+    <string name="hint_password">Şifrenizi giriniz</string>
+    <string name="button_login">Giriş</string>
+    <string name="button_register">Kayıt</string>
+    <string name="button_telephone">Telefon</string>
 </resources>

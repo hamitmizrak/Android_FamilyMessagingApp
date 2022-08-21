@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:textColor="#000000"
-                    android:hint="Kullanıcı Email Adresiniz"
+                    android:hint="@string/hint_email"
                     android:drawableLeft="@drawable/email"
                     android:layout_marginBottom="5dp"
                     android:id="@+id/editTextLoginMailAddress" />
@@ -55,7 +55,7 @@
                     android:background="#ffffff"
                     android:textColor="#000000"
                     android:drawableLeft="@drawable/password"
-                    android:hint="Kullanıcı Parolanız"
+                    android:hint="@string/hint_password"
                     android:inputType="textPassword"
                     android:id="@+id/editTextLoginPassword" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -69,25 +69,35 @@
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:drawableLeft="@drawable/login"
-                    android:text="Giriş"
+                    android:text="@string/button_login"
                     android:layout_marginRight="5dp"
-                    android:id="@+id/buttonLogin"
-                    />
+                    android:id="@+id/buttonLogin" />
 
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:drawableLeft="@drawable/register"
-                    android:text="Kayıt"
-                    android:id="@+id/buttonLoginRegister"
-                    />
+                    android:text="@string/button_register"
+                    android:id="@+id/buttonLoginRegister" />
             </LinearLayout>  <!--end button-->
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <!--google sigIn-->
             <com.google.android.gms.common.SignInButton
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:id="@+id/buttonGoogleIndent"/>
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/telephone"
+                android:text="@string/button_telephone"
+                android:layout_marginRight="5dp"
+                android:id="@+id/buttonTelephone"
+                />
+        </LinearLayout>
         </LinearLayout> <!--end linearLayout-->
     </ScrollView><!--end main ScrollView-->
 </RelativeLayout><!--end main RelativeLayout-->
