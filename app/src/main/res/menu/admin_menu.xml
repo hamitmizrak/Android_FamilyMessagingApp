@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--menu item-->
+<item android:title="Ayarlar"
+    android:id="@+id/adminMenuSettingId" />
+<item android:title="Resim Ekle"
+    android:id="@+id/adminMenuPictureId" />
+<item android:title="Kişi Ekle"
+    android:id="@+id/adminMenuFrienfId" />
+<item android:title="Çıkış"
+    android:id="@+id/adminMenuLogoutId" /></menu>
