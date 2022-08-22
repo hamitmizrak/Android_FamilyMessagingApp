@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonLogin;
 
     //register
-
-    //Google Sign In
-    SignInButton buttonGoogleIndent;
+    Button buttonLoginRegister;
 
     //user email ve password
     String userEmailAddress, userPassword;
@@ -72,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
         editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
 
-        //google id almak
-        buttonGoogleIndent = findViewById(R.id.buttonGoogleIndent);
+        //Register id almak
+        buttonLoginRegister = findViewById(R.id.buttonLoginRegister);
 
         //Firebase Instance
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Kullanıcının verilerini almak
-        userEmailAddress = editTextLoginMailAddress.getText().toString();
-        userPassword = editTextLoginPassword.getText().toString();
+       // userEmailAddress = editTextLoginMailAddress.getText().toString();
+        //userPassword = editTextLoginPassword.getText().toString();
 
         //Kullanıcı sisteme giriş/çıkış yapmış mı ?
         //eğer sistemde Kullanıcı varsa Admin sayfasına yönlendir
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //butona tıkladığımda inputtlardan aldığım verilerle sisteme giriş yapmak
                 // addOnCompleteListener: sisteme giriş dinlemek
-                firebaseAuth.signInWithEmailAndPassword(userEmailAddress, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.signInWithEmailAndPassword(editTextLoginMailAddress.getText().toString(), editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     //eğer sisteme giriş başarılıysa admin page yönlendirsin
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         // +++++ +++ //
         //Google Button
-        buttonGoogleIndent.setOnClickListener(new View.OnClickListener() {
+        buttonLoginRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Google Sayfasına gitmek

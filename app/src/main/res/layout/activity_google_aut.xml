@@ -17,49 +17,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- circle image view -->
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/pictureGoogleId"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/circle_profile" />
-
-            <!--email input-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:background="#ffffff"
-                    android:drawableLeft="@drawable/email"
-                    android:hint="@string/hint_email"
-                    android:textColor="#000000"
-                    android:id="@+id/editTextGoogleMailAddressId"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!--password input-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:drawableLeft="@drawable/password"
-                    android:hint="@string/hint_password"
-                    android:inputType="textPassword"
-                    android:textColor="#000000"
-                    android:id="@+id/editTextGooglePasswordId"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonGoogle"
-                android:text="@string/button_google"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="110dp"
+             android:text="Gogole ile giriş"/>
 
         </LinearLayout><!--end LinearLayout -->
     </ScrollView> <!-- end ScrollView-->

@@ -7,7 +7,7 @@
     <string name="button_register">Kayıt</string>
     <string name="button_telephone">Telefon</string>
     <string name="admin_redirect">Admin Sayfasına Yönlendiliyorsunuz</string>
-    <string name="login_faile">Sisteme giriş yaparken hata meydana geldi</string>
+    <string name="login_faile">Sisteme giriş yaparken hata meydana geldi İnternetiniz veya kulalnıcı yoktur</string>
     <string name="login_google_faile">İnternetini çok yavaş sisteme bağlaanamıyorsunuz</string>
     <string name="sigin_google">Google ile Giriş sayfasına Yönlendiriliyorsunuz</string>
 </resources>
