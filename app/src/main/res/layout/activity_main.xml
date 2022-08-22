@@ -31,11 +31,10 @@
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/circle_profile" />
 
-            <!--email adress-->
+            <!--edit text email adress-->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <EditText
                     android:id="@+id/editTextLoginMailAddress"
                     android:layout_width="match_parent"
@@ -47,11 +46,10 @@
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--password-->
+            <!--edit text password-->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <EditText
                     android:id="@+id/editTextLoginPassword"
                     android:layout_width="match_parent"
@@ -63,12 +61,12 @@
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--button-->
+            <!--Login ve Register button-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <!--Login button-->
                 <Button
                     android:id="@+id/buttonLogin"
                     android:layout_width="150dp"
@@ -76,7 +74,7 @@
                     android:layout_marginRight="5dp"
                     android:drawableLeft="@drawable/login"
                     android:text="@string/button_login" />
-
+                <!--Register button-->
                 <Button
                     android:id="@+id/buttonLoginRegister"
                     android:layout_width="150dp"
@@ -85,16 +83,17 @@
                     android:text="@string/button_register" />
              </LinearLayout>  <!--end button-->
 
+            <!--google ve telefonla giriş-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <!--google sigIn-->
+                <!--google ile giriş-->
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/buttonGoogleIndent"
                     android:layout_width="150dp"
                     android:layout_height="50dp" />
-
+                <!--Telefon validation ile giriş-->
                 <Button
                     android:id="@+id/buttonTelephone"
                     android:layout_width="150dp"

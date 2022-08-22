@@ -1,8 +1,6 @@
 package hamitmizrak.com.familymessagingapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     //user email ve password
     String userEmailAddress, userPassword;
 
-
+    //onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +50,21 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Kullanıcının verilerini almak
-               // userEmailAddress = editTextRegisterMailAddressId.getText().toString();
-               // userPassword = editTextRegisterPasswordId.getText().toString();
+                // userEmailAddress = editTextRegisterMailAddressId.getText().toString();
+                // userPassword = editTextRegisterPasswordId.getText().toString();
                 //Sisteme yeni kullanıcı eklemek
-                firebaseAuth.createUserWithEmailAndPassword(editTextRegisterMailAddressId.getText().toString(), editTextRegisterPasswordId.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.createUserWithEmailAndPassword(editTextRegisterMailAddressId.getText().toString(),
+                                editTextRegisterPasswordId.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                           //complete -1
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(RegisterActivity.this, "Login hesabıyla sisteme giriş yapıldı", Toast.LENGTH_SHORT).show();
-                                //Google hesabıyla giriş için
-                                firebaseAuth.signInWithEmailAndPassword(editTextRegisterMailAddressId.getText().toString(), editTextRegisterPasswordId.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                //Register hesabıyla giriş için
+                                firebaseAuth.signInWithEmailAndPassword(editTextRegisterMailAddressId.getText().toString(),
+                                        editTextRegisterPasswordId.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                                    //complete -2
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
@@ -70,9 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
                                         // finish();
                                     } //onComplete
                                 }).addOnFailureListener(new OnFailureListener() {
+                                    //complete -2 Faile
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(RegisterActivity.this, getString(R.string.login_google_faile), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
                                     }//end onFailure
                                 }); //end addOnFailureListener
                             }//end onClick
