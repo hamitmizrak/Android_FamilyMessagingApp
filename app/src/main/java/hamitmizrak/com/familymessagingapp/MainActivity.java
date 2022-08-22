@@ -102,23 +102,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //butona tıkladığımda inputlardan aldığım verilerle sisteme giriş yapmak
-                // addOnCompleteListener: sisteme giriş dinlemek
-                firebaseAuth.signInWithEmailAndPassword(editTextLoginMailAddress.getText().toString(), editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    //eğer sisteme giriş başarılıysa admin page yönlendirsin
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
-                        //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
-                        Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
-                       // startActivity(adminIndent);
-                    }
-                    //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
-                    }//end onFailure
-                }); //end addOnFailureListener
+                userEmailAddress=editTextLoginMailAddress.getText().toString();
+                userPassword=editTextLoginPassword.getText().toString();
+                if(userPassword==null || userPassword.equals("") ||userEmailAddress==null || userEmailAddress.equals("") )
+                {
+                    Toast.makeText(MainActivity.this, "Lütfen boş girmeyiniz", Toast.LENGTH_SHORT).show();
+                }else{
+                    // addOnCompleteListener: sisteme giriş dinlemek
+                    firebaseAuth.signInWithEmailAndPassword(userEmailAddress, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        //eğer sisteme giriş başarılıysa admin page yönlendirsin
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            //Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
+                            //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
+                            Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
+                            // startActivity(adminIndent);
+                        }
+                        //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
+                        }//end onFailure
+                    }); //end addOnFailureListener
+                }
+
             }//end onClick
         });//end setOnClickListener
 
