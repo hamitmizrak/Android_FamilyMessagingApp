@@ -97,20 +97,20 @@ public class MainActivity extends AppCompatActivity {
         };//end authStateListener
 
         // +++++ +++ //
-        //buttonLogin tıklandığında
+        //Login Button
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //butona tıkladığımda inputtlardan aldığım verilerle sisteme giriş yapmak
+                //butona tıkladığımda inputlardan aldığım verilerle sisteme giriş yapmak
                 // addOnCompleteListener: sisteme giriş dinlemek
                 firebaseAuth.signInWithEmailAndPassword(editTextLoginMailAddress.getText().toString(), editTextLoginPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     //eğer sisteme giriş başarılıysa admin page yönlendirsin
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
+                        //Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
                         //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
                         Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
-                        startActivity(adminIndent);
+                       // startActivity(adminIndent);
                     }
                     //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
                 }).addOnFailureListener(new OnFailureListener() {
@@ -123,15 +123,15 @@ public class MainActivity extends AppCompatActivity {
         });//end setOnClickListener
 
         // +++++ +++ //
-        //Google Button
+        //Register Button
         buttonLoginRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Google Sayfasına gitmek
-                Intent googleIndent = new Intent(getApplicationContext(), GoogleAutActivity.class);
+                Intent registerIndent = new Intent(getApplicationContext(), RegisterActivity.class);
                 //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
-                Toast.makeText(MainActivity.this, getString(R.string.sigin_google), Toast.LENGTH_SHORT).show();
-                startActivity(googleIndent);
+                Toast.makeText(MainActivity.this, getString(R.string.register), Toast.LENGTH_SHORT).show();
+                startActivity(registerIndent);
             }//end onClick
         }); // end buttonGoogleIndent
 
