@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminActivty">
+    tools:context=".AdminActivity">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="110dp"
-        android:text="Admin Page sadece sisteme üye giriş görebilir"/>
+        android:layout_height="55dp"
+        android:text="Admin Sayfası"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

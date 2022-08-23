@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     //complete -2
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
+                                        Intent adminIndent = new Intent(getApplicationContext(), AdminActivity.class);
                                         //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
                                         Toast.makeText(RegisterActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
                                         startActivity(adminIndent);

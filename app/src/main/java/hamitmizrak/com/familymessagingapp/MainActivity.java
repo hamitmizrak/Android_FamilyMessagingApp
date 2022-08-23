@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 //kullanıcı bilgisini almak
                 firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
+                    Intent adminIndent = new Intent(getApplicationContext(), AdminActivity.class);
                     //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
                     Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
                     startActivity(adminIndent);
