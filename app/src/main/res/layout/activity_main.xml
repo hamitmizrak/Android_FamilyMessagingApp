@@ -41,7 +41,11 @@
                 app:endIconCheckable="true"
                 app:endIconDrawable="@android:drawable/ic_input_add"
                 app:endIconMode="custom"
-                app:endIconTint="#0000FF">
+                app:endIconTint="#0000FF"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextLoginMailAddress"
@@ -53,10 +57,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:hint="@string/hint_password"
                 app:boxBackgroundColor="#FFFFFF"
                 app:endIconMode="password_toggle"
-                app:endIconTint="#0000FF">
+                app:endIconTint="#0000FF"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextLoginPassword"
@@ -110,20 +119,27 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
-                <!--google ile giriş-->
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/buttonGoogleIndent"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp" />
-                <!--Telefon validation ile giriş-->
-                <Button
-                    android:id="@+id/buttonTelephone"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="5dp"
-                    android:drawableLeft="@drawable/telephone"
-                    android:text="@string/button_telephone" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/google"
+                    android:id="@+id/socialGoogleId"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/cellphone"
+                    android:id="@+id/socialCellPhoneId"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/linkedin"
+                    android:id="@+id/socialLinkedinId"/>
+
             </LinearLayout>  <!--end button-->
         </LinearLayout> <!--end linearLayout-->
     </ScrollView><!--end main ScrollView-->

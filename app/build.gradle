@@ -32,6 +32,9 @@ dependencies {
     /*starts code*/
     //new added
 
+    /*circle image view*/
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     /* firebase uygulamada Firebase Assistan ==> email password Authentication Asistans*/
     implementation 'com.google.firebase:firebase-auth:19.2.0'
 
