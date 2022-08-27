@@ -30,6 +30,52 @@ public class RegisterActivity extends AppCompatActivity {
     //user email ve password
     String userEmailAddress, userPassword;
 
+    //validation Email
+    private Boolean validateEmail(String val) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (val.isEmpty()) {
+            editTextRegisterMailAddressId.setError("Field cannot be empty");
+            Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!val.matches(emailPattern)) {
+            editTextRegisterMailAddressId.setError("Invalid Email Adres");
+            Toast.makeText(this, "Invalid Email Adres", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            editTextRegisterMailAddressId.setError(null);
+            return true;
+        }
+    }
+
+    //validation Password
+    private Boolean validatePassword(String val) {
+        //String noWhiteSpace="(?=\\s+$)";   ==> else if(!val.matches(noWhiteSpace))
+        //1 tane sayı 1 tane küçük harf ve1 tane büyük harf
+        //Hm3611776/.
+        //"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        //Hm123456@
+        String passwordVal = "^" +
+                "(?=.*[0-9])" +            // En az 1 tane sayı
+                "(?=.*[a-z])" +            // en az 1 tane küçük har
+                "(?=.*[@#$%^&+=])" +       // at least 1 special character
+                "(?=\\S+$)" +              // no white spaces
+                ".{4,}" +                  // at least 4 characters
+                "$";
+        if (val.isEmpty()) {
+            editTextRegisterPasswordId.setError("Field cannot be empty");
+            Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!val.matches(passwordVal)) {
+            editTextRegisterPasswordId.setError("Password is too weak !!");
+            Toast.makeText(this, "Password is too weak", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            editTextRegisterPasswordId.setError(null);
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
     //onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +96,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Kullanıcının verilerini almak
-                // userEmailAddress = editTextRegisterMailAddressId.getText().toString();
-                // userPassword = editTextRegisterPasswordId.getText().toString();
+                userEmailAddress = editTextRegisterMailAddressId.getText().toString();
+                userPassword = editTextRegisterPasswordId.getText().toString();
+                //validation
+                if(!validateEmail(userEmailAddress) || !validatePassword(userPassword)){
+                    return;
+                }
                 //Sisteme yeni kullanıcı eklemek
-                firebaseAuth.createUserWithEmailAndPassword(editTextRegisterMailAddressId.getText().toString(),
-                                editTextRegisterPasswordId.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.createUserWithEmailAndPassword(userEmailAddress,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                            //complete -1
                             @Override

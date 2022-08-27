@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.SignInButton;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonLogin;
 
     //register
-    Button buttonLoginRegister;
+    TextView buttonLoginRegister;
 
     //user email ve password
     String userEmailAddress, userPassword;
@@ -58,6 +59,57 @@ public class MainActivity extends AppCompatActivity {
     } //end onStop
 
 
+    //validation Email
+    private Boolean validateEmail(String val) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (val.isEmpty()) {
+            editTextLoginMailAddress.setError("Field cannot be empty");
+            Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!val.matches(emailPattern)) {
+            editTextLoginMailAddress.setError("Invalid Email Adres");
+            Toast.makeText(this, "Invalid Email Adres", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            editTextLoginMailAddress.setError(null);
+            return true;
+        }
+    }
+
+    //validation Password
+    private Boolean validatePassword(String val) {
+        //String noWhiteSpace="(?=\\s+$)";   ==> else if(!val.matches(noWhiteSpace))
+        //1 tane sayı 1 tane küçük harf ve1 tane büyük harf
+        //Hm3611776/.
+        //"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        //Hm123456@
+        String passwordVal = "^" +
+                "(?=.*[0-9])" +            // En az 1 tane sayı
+                "(?=.*[a-z])" +            // en az 1 tane küçük har
+                "(?=.*[@#$%^&+=])" +       // at least 1 special character
+                "(?=\\S+$)" +              // no white spaces
+                ".{4,}" +                  // at least 4 characters
+                "$";
+        if (val.isEmpty()) {
+            editTextLoginPassword.setError("Field cannot be empty");
+            Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
+
+            return false;
+        } else if (!val.matches(passwordVal)) {
+            editTextLoginPassword.setError("Password is too weak !!");
+            Toast.makeText(this, "Password is too weak", Toast.LENGTH_SHORT).show();
+
+            return false;
+        } else {
+            editTextLoginPassword.setError(null);
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+    }
+
+
+
     //onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //Kullanıcının verilerini almak
-       // userEmailAddress = editTextLoginMailAddress.getText().toString();
+        // userEmailAddress = editTextLoginMailAddress.getText().toString();
         //userPassword = editTextLoginPassword.getText().toString();
 
         //Kullanıcı sisteme giriş/çıkış yapmış mı ?
@@ -102,12 +154,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //butona tıkladığımda inputlardan aldığım verilerle sisteme giriş yapmak
-                userEmailAddress=editTextLoginMailAddress.getText().toString();
-                userPassword=editTextLoginPassword.getText().toString();
-                if(userPassword==null || userPassword.equals("") ||userEmailAddress==null || userEmailAddress.equals("") )
-                {
-                    Toast.makeText(MainActivity.this, "Lütfen boş girmeyiniz", Toast.LENGTH_SHORT).show();
-                }else{
+                userEmailAddress = editTextLoginMailAddress.getText().toString();
+                userPassword = editTextLoginPassword.getText().toString();
+
+                if(!validateEmail(userEmailAddress) || !validatePassword(userPassword)){
+                    return;
+                }
+
                     // addOnCompleteListener: sisteme giriş dinlemek
                     firebaseAuth.signInWithEmailAndPassword(userEmailAddress, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         //eğer sisteme giriş başarılıysa admin page yönlendirsin
@@ -125,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
                         }//end onFailure
                     }); //end addOnFailureListener
-                }
-
             }//end onClick
         });//end setOnClickListener
 
