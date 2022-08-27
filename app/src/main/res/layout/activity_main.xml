@@ -35,17 +35,18 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="12dp"
                 android:hint="@string/hint_email"
+                app:boxBackgroundColor="#FFFFFF"
                 app:endIconCheckable="true"
                 app:endIconDrawable="@android:drawable/ic_input_add"
                 app:endIconMode="custom"
-                app:boxBackgroundColor="#FFFFFF"
                 app:endIconTint="#0000FF">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLoginMailAddress"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextLoginMailAddress"/>
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--edit text password-->
@@ -56,6 +57,7 @@
                 app:boxBackgroundColor="#FFFFFF"
                 app:endIconMode="password_toggle"
                 app:endIconTint="#0000FF">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextLoginPassword"
                     android:layout_width="match_parent"
@@ -66,28 +68,43 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <!--Login button-->
                 <Button
                     android:id="@+id/buttonLogin"
-                    android:layout_width="150dp"
+                    android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:drawableLeft="@drawable/login"
                     android:text="@string/button_login" />
+
+                <!--forgot password-->
+                <TextView
+                    android:id="@+id/buttonForgotPassword"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/black"
+                    android:drawableLeft="@drawable/register"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/forgot_password"
+                    android:textColor="#FFFFFF" />
+
                 <!--Register Link-->
                 <TextView
                     android:id="@+id/buttonLoginRegister"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/black"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center"
-                    android:drawableLeft="@drawable/register"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:background="@color/black"
+                    android:drawableLeft="@drawable/register"
+                    android:gravity="center"
                     android:padding="4dp"
-                    android:text="@string/button_register" />
-             </LinearLayout>  <!--end button-->
+                    android:text="@string/button_register"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>  <!--end button-->
 
             <!--google ve telefonla giriş-->
             <LinearLayout

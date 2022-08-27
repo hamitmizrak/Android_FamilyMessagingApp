@@ -1,8 +1,10 @@
 package hamitmizrak.com.familymessagingapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextLoginMailAddress;
     EditText editTextLoginPassword;
     Button buttonLogin;
+
+    //Forgot Password
+    TextView buttonForgotPassword;
 
     //register
     TextView buttonLoginRegister;
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             editTextLoginMailAddress.setError("Invalid Email Adres");
             Toast.makeText(this, "Invalid Email Adres", Toast.LENGTH_SHORT).show();
             return false;
-        }else{
+        } else {
             editTextLoginMailAddress.setError(null);
             return true;
         }
@@ -109,13 +115,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     //onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //onCreate Start Codes
+
+        //forgot password id
+        buttonForgotPassword = findViewById(R.id.buttonForgotPassword);
 
         //id Almak
         editTextLoginMailAddress = findViewById(R.id.editTextLoginMailAddress);
@@ -157,27 +165,28 @@ public class MainActivity extends AppCompatActivity {
                 userEmailAddress = editTextLoginMailAddress.getText().toString();
                 userPassword = editTextLoginPassword.getText().toString();
 
-                if(!validateEmail(userEmailAddress) || !validatePassword(userPassword)){
+                //validation
+                if (!validateEmail(userEmailAddress) || !validatePassword(userPassword)) {
                     return;
                 }
 
-                    // addOnCompleteListener: sisteme giriş dinlemek
-                    firebaseAuth.signInWithEmailAndPassword(userEmailAddress, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        //eğer sisteme giriş başarılıysa admin page yönlendirsin
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            //Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
-                            //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
-                            Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
-                            // startActivity(adminIndent);
-                        }
-                        //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
-                        }//end onFailure
-                    }); //end addOnFailureListener
+                // addOnCompleteListener: sisteme giriş dinlemek
+                firebaseAuth.signInWithEmailAndPassword(userEmailAddress, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    //eğer sisteme giriş başarılıysa admin page yönlendirsin
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Intent adminIndent = new Intent(getApplicationContext(), AdminActivty.class);
+                        //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
+                        Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
+                        // startActivity(adminIndent);
+                    }
+                    //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, getString(R.string.login_faile), Toast.LENGTH_SHORT).show();
+                    }//end onFailure
+                }); //end addOnFailureListener
             }//end onClick
         });//end setOnClickListener
 
@@ -191,8 +200,49 @@ public class MainActivity extends AppCompatActivity {
                 //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
                 Toast.makeText(MainActivity.this, getString(R.string.register), Toast.LENGTH_SHORT).show();
                 startActivity(registerIndent);
-            }//end onClick
-        }); // end buttonGoogleIndent
+            }//end buttonLoginRegister onClick
+        }); // end buttonLoginRegister
+
+        //Şifremi unuttum
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Mail Gönderilecek bilgiler
+                EditText resetMail=new EditText(view.getContext());
+                AlertDialog.Builder passwordResetDialog=new AlertDialog.Builder(view.getContext());
+                passwordResetDialog.setTitle("Şifreyi Değiştirmek istiyor musunuz? ");
+                passwordResetDialog.setMessage("Mail Adresinizi giriniz ");
+                passwordResetDialog.setView(resetMail);
+
+                //Evet Dialog
+                passwordResetDialog.setPositiveButton("EVET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String mail=resetMail.getText().toString();
+                        firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(MainActivity.this, "Mail Gönderildi", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MainActivity.this, "Mail Gönderilmede bir hata meydana geldi "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }//end onFailure
+                        });
+                    }
+                }); //end positiveButton
+
+                passwordResetDialog.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Mail Gönderilmedi", Toast.LENGTH_SHORT).show();
+                    }
+                });//end setNegativeButton
+                passwordResetDialog.create().show();
+
+            } //end onClick
+        }); //end buttonForgotPassword
 
         //onCreate End Codes
     }//end onCreate
