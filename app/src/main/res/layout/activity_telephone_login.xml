@@ -45,7 +45,6 @@ tools:context=".TelephoneLoginActivity">
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
             app:boxCornerRadiusTopEnd="20dp">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_phoneNumberId"
                 android:layout_width="match_parent"
@@ -65,7 +64,6 @@ tools:context=".TelephoneLoginActivity">
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
             app:boxCornerRadiusTopEnd="20dp">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text_phoneCodeId"
                 android:layout_width="match_parent"
