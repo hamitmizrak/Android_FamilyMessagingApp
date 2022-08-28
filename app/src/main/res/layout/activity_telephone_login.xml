@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/background"
+android:orientation="vertical"
+android:paddingLeft="16dp"
+android:paddingTop="18dp"
+android:paddingRight="16dp"
+android:paddingBottom="16dp"
+tools:context=".TelephoneLoginActivity">
+
+<!-- layout_centerInParent: tam ortalamak-->
+<ScrollView
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+    <!--main LinearLayout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- circle image view -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/cellphone" />
+
+        <!--edit text email adress-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Telephone Numaranız +90 xxxyyyzzmm"
+            app:boxBackgroundColor="#FFFFFF"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@android:drawable/ic_input_add"
+            app:endIconMode="custom"
+            app:endIconTint="#0000FF"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_phoneNumberId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--edit text password-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Doğrulama Kodunuz"
+            app:boxBackgroundColor="#FFFFFF"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#0000FF"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_phoneCodeId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Login ve Register button-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--Login button-->
+            <Button
+                android:id="@+id/confirmationButtonId"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/login"
+                android:text="istek At" />
+        </LinearLayout>  <!--end button-->
+
+    </LinearLayout> <!--end linearLayout-->
+</ScrollView><!--end main ScrollView-->
+</RelativeLayout><!--end main RelativeLayout-->

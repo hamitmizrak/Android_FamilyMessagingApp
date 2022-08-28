@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
     //global variable
 
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextLoginMailAddress;
     EditText editTextLoginPassword;
     Button buttonLogin;
+
+    //Telephone Login
+    CircleImageView socialCellPhoneId;
 
     //Forgot Password
     TextView buttonForgotPassword;
@@ -125,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
         //forgot password id
         buttonForgotPassword = findViewById(R.id.buttonForgotPassword);
 
+        //telephone login id
+        socialCellPhoneId=findViewById(R.id.socialCellPhoneId);
+
         //id Almak
         editTextLoginMailAddress = findViewById(R.id.editTextLoginMailAddress);
         editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
@@ -135,6 +143,28 @@ public class MainActivity extends AppCompatActivity {
 
         //Firebase Instance
         firebaseAuth = FirebaseAuth.getInstance();
+
+        //Telephone Login Validation
+        socialCellPhoneId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //eğer sistemde kullanıcı varsa secret yani sadece login olabilenlerin sayfasına yönlendir
+                if (firebaseUser != null) {
+                    //Kullanıcı sistemde ise Admin sayfasına yönlendirmek
+                    Intent adminIndent = new Intent(getApplicationContext(), AdminActivity.class);
+                    //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
+                    Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
+                    startActivity(adminIndent);
+                } else {
+                    Intent telephoneIndent = new Intent(getApplicationContext(), TelephoneLoginActivity.class);
+                    //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
+                    Toast.makeText(MainActivity.this, getString(R.string.telephone_login_redirect), Toast.LENGTH_SHORT).show();
+                    startActivity(telephoneIndent);
+                }
+            }
+        });
+
 
         //Kullanıcının verilerini almak
         // userEmailAddress = editTextLoginMailAddress.getText().toString();
