@@ -27,8 +27,13 @@ public class AdminActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int chooise=item.getItemId();
         switch (chooise){
+
+            case R.id.adminMenuRefleshId:
+                Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
+                break;
+
             case R.id.adminMenuSettingId:
-                Toast.makeText(this, "Ayalar Seçildi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Ayarlar Seçildi", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.adminPersonId:
@@ -59,10 +64,12 @@ public class AdminActivity extends AppCompatActivity {
 
         //id almak Toolbar id
         myToolBarId=findViewById(R.id.myToolBarId);
+        //Menu
+        myToolBarId.setTitle("Admin");
+        myToolBarId.setSubtitle("Uygulama Alanı");
+        myToolBarId.setLogo(R.drawable.logo);
+        // myToolBarId.setNavigationIcon(R.drawable.logo);
         setSupportActionBar(myToolBarId);
-        myToolBarId.setNavigationIcon(R.drawable.logo);
-
-
 
     } // end onCreate
 }//end AdminActivity
