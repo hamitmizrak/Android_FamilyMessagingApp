@@ -1,6 +1,7 @@
 package hamitmizrak.com.familymessagingapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +32,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     //global variable
+
+    //Google Sign in 11
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    CircleImageView socialGoogleId;
 
     //Login
     EditText editTextLoginMailAddress;
@@ -68,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         //firebaseAuth kullanıcıyı çıkarmak
         firebaseAuth.removeAuthStateListener(authStateListener);
     } //end onStop
-
 
     //validation Email
     private Boolean validateEmail(String val) {
@@ -119,6 +129,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //signInMethod 11
+    private void sigInMethod(){
+        Intent googleSignInIntent=gsc.getSignInIntent();
+        //buraya verdiğim requestcode aşağıda eşleme yapabilmek için kullancağız.
+        startActivityForResult(googleSignInIntent,2344);
+    }
+
+    //signInGoogle onActivityResult 11
+    // Eğer sisteme giriş başarılıysa AdminActivity gitmesini sağlayalım.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //start Codes
+        if(requestCode==2344){
+            Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                task.getResult(ApiException.class);
+                navigateToAdminActivity();
+            }catch (ApiException apiException){
+                Toast.makeText(this, "opps Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //navigateToAdminActivity 11
+    //şartlar uygunsa MainActivity'den AdminActivity gitsin
+    private void navigateToAdminActivity() {
+        finish();
+        Intent intent=new Intent(MainActivity.this,AdminActivity.class);
+        startActivity(intent);
+    }
 
     //onCreate
     @Override
@@ -126,6 +167,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //onCreate Start Codes
+
+        //Google Login id almak 11
+        socialGoogleId=findViewById(R.id.socialGoogleId);
+        //Google Sign in
+        gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc=GoogleSignIn.getClient(this,gso);
+        // Google Sign in Eğer sistemde kullanıcı varsa tekrar girmesini önle
+        GoogleSignInAccount googleSignInAccount=GoogleSignIn.getLastSignedInAccount(this);
+        if(googleSignInAccount!=null){
+            navigateToAdminActivity();
+        }
+
+        socialGoogleId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sigInMethod();
+            }
+        });
 
         //forgot password id
         buttonForgotPassword = findViewById(R.id.buttonForgotPassword);

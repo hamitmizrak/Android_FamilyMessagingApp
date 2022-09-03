@@ -32,6 +32,9 @@ dependencies {
     /*starts code*/
     //new added
 
+    /*Google Signin integration android */
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
     /*circle image view*/
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 

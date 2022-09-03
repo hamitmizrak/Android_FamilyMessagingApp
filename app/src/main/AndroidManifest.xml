@@ -4,9 +4,12 @@
     package="hamitmizrak.com.familymessagingapp">
     <!-- permission:izin almak -->
     <!-- internet izni -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- camera izni -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- telefon rehber izni izni -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- konum izni -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- camera izni -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- telefon rehber izni izni -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- konum izni -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
