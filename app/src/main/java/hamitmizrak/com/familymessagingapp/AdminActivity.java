@@ -122,7 +122,6 @@ public class AdminActivity extends AppCompatActivity {
             });
         }
 
-
         //id almak Toolbar id
         myToolBarId=findViewById(R.id.myToolBarId);
         //Menu
