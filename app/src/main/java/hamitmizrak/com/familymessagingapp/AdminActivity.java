@@ -60,6 +60,8 @@ public class AdminActivity extends AppCompatActivity {
         //id almak Toolbar id
         myToolBarId=findViewById(R.id.myToolBarId);
         setSupportActionBar(myToolBarId);
+        myToolBarId.setNavigationIcon(R.drawable.logo);
+
 
 
     } // end onCreate
