@@ -37,36 +37,37 @@ public class AdminActivity extends AppCompatActivity {
     // Resim Galeri işlemi için ekledim (Res55)
     private final static int PICTURE_CONST=44;
 
-    // Firebase işlemleri
+    //Firebase işlerimleri
     private FirebaseAuth firebaseAuth;
 
-    //Realtime Database için
-    private DatabaseReference databaseReference;
-    private DatabaseReference userReference;
-    private DatabaseReference imageReference;
-    private DatabaseReference mailReference;
+    //Realtime database için
+    private DatabaseReference databaseReferances;
+    private DatabaseReference userReferances;
+    private DatabaseReference mailReferances;
+    private DatabaseReference imageReferances;
 
-    // Firebase User
+    //Firebase User
     private FirebaseUser firebaseUser;
 
-    // Firebase Storage (Resim)
+    //Firebase Storage (Resim)
     private StorageReference storageReference;
 
-    // Firebase kullanıcı giriş/çıkış işlemleri
+    //Firebase kullanıcı giriş/çıkış işlemlerinde
     private FirebaseAuth.AuthStateListener authStateListener;
 
-    // FirebaseAuth Kullanıcı Eklemek
+    //firebaseAuth kullanıcıyı eklemek
     @Override
     protected void onStart() {
         super.onStart();
-        //firebaseAuth kullanıcı eklemek
+        //firebaseAuth kullanıcıyı eklemek
         firebaseAuth.addAuthStateListener(authStateListener);
-    }// end onStart
+    }//end onStart
 
-    // FirebaseAuth Kullanıcı Çıkarmak
+    //firebaseAuth kullanıcıyı çıkarmak
     @Override
     protected void onStop() {
         super.onStop();
+        //firebaseAuth kullanıcıyı çıkarmak
         firebaseAuth.removeAuthStateListener(authStateListener);
     } //end onStop
 
@@ -88,36 +89,36 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     //Resim Galerisi
+    //Ben ekledim Resim galerisi için
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // start codes
-        //Sabit sayımızla karşılaştırma
-        if(requestCode==PICTURE_CONST && requestCode==RESULT_OK){
+        //start codes
+        //sabit sayımızı veriyoruz ki resimler galeriden gelsin
+        if (requestCode == PICTURE_CONST && resultCode == RESULT_OK) {
+            //import android.net.Uri;
+            //Resim galerindeki seçilen resmi tutmak için
+            Uri uri = data.getData();
 
-            //Resim galerinde resim seçtiğimizde veriyi almak
-            // import android.net.Uri
-            Uri uri=data.getData();
-
-            // ###### Dikkat: Firebase sitesine gidip ==> Storage ==>  pictures adında bir klasor oluşturmalısın ########
-            //Sistemdeki kullanıcını mail adresiyle Firebase eklesin
-            StorageReference pictureDataPath=storageReference.child("pictures").child(firebaseAuth.getCurrentUser().getEmail());
-            pictureDataPath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                //Eğer resim yükleme başarılı ise
+            //Firebase Sitesinde pictures adıanda klasor oluşturdum.
+            //Kullanıcıdan mail adresini aldım Firebase yüklerken mail adıyla yükledim
+            StorageReference picturePath = storageReference.child("pictures").child(firebaseAuth.getCurrentUser().getEmail());
+            picturePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                //Başarılı resim yüklenirse
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    imageReference.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
-                    Toast.makeText(AdminActivity.this, "Resminiz Firebase Yüklendi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivity.this, "Resminiz firebase Yüklendi", Toast.LENGTH_SHORT).show();
+                    //resim yüklendikten sonra database yani realtime ekliyoruz.
+                    imageReferances.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
                 }
-            }).addOnFailureListener(new OnFailureListener() {
+            }).addOnFailureListener(new OnFailureListener() { //Resim yükelmede sıkıntı çıkarsa
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AdminActivity.this, "!!! Resminiz Firebase Yüklenmedi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminActivity.this, "Resim yüklemede sıkıntı oluştu.", Toast.LENGTH_SHORT).show();
                 }
-            }); //addOnFailureListener
-        } //end if
-        // end codes
-    }//onActivityResult
+            });
+        }
+    }
 
 
     //Menu itemlara tıkladğımda Çalışacak yer
@@ -127,24 +128,21 @@ public class AdminActivity extends AppCompatActivity {
         switch (chooise){
 
             case R.id.adminMenuPictureId:
-                Toast.makeText(this, "Resim", Toast.LENGTH_SHORT).show();
-
-                //resim için
-                Intent allPictures=new Intent(Intent.ACTION_PICK);
+                //Resim Galerisi ayarları
+                Toast.makeText(getApplicationContext(), "Resim seçildi", Toast.LENGTH_SHORT).show();
+                Intent allPictures = new Intent(Intent.ACTION_PICK);
                 allPictures.setType("image/*");
+                //Const yapımızı buraya verdik
+                startActivityForResult(allPictures, PICTURE_CONST);
 
-                //const yapımızı buraya veriyoruz
-                startActivityForResult(allPictures,PICTURE_CONST);
-
-                //resimi yükledikten sonraki aşamada realtime database için
-                //Sistemdeki kullanıcı UID oluştur
-                userReference=databaseReference.child(firebaseAuth.getCurrentUser().getUid().toString());
-
-                //UID altında olmasını istediğimiz veriler
-                mailReference=userReference.child("mail_addresim");
-                mailReference.setValue(firebaseAuth.getCurrentUser().getEmail());
-                imageReference=userReference.child("resimim");
-                break;
+                //resim yüklendikten sonra realtime database için
+                //UID
+                userReferances = databaseReferances.child(firebaseAuth.getCurrentUser().getUid().toString());
+                //UID altında ==> mail ve userImage
+                mailReferances = userReferances.child("mail_addresim");
+                mailReferances.setValue(firebaseAuth.getCurrentUser().getEmail());
+                imageReferances = userReferances.child("resimim");
+                break;//end Resim
 
             case R.id.adminMenuRefleshId:
                 Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
@@ -189,23 +187,22 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         //start
 
-        // FirebaseAuth Instance
-        firebaseAuth=FirebaseAuth.getInstance();
-        //Firebase kullanıcı giriş/çıkış işlemleri
-        authStateListener=new FirebaseAuth.AuthStateListener() {
+        //Firebase Instance
+        firebaseAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                //sistemdeki Kullanıcı bilgisi almak için
-                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+                //Sistemdeki kullanıcı Bilgisini almak
+                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             }
         };
 
-        // Firebase Storage
-        storageReference= FirebaseStorage.getInstance().getReference();
+        //Firebase Storage(Resim)
+        storageReference = FirebaseStorage.getInstance().getReference();
 
-        // Realtime Database için
-        databaseReference= FirebaseDatabase.getInstance().getReference("users");
-
+        //Realtime database için
+        databaseReferances = FirebaseDatabase.getInstance().getReference("users");
+        //end codes
 
         //Google Sign In Account
         signOutButtonId=findViewById(R.id.signOutButtonId);
