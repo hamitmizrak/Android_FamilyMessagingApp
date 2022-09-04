@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,22 +115,19 @@ public class MainActivity extends AppCompatActivity {
         if (val.isEmpty()) {
             editTextLoginPassword.setError("Field cannot be empty");
             Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
-
             return false;
         } else if (!val.matches(passwordVal)) {
             editTextLoginPassword.setError("Password is too weak !!");
             Toast.makeText(this, "Password is too weak", Toast.LENGTH_SHORT).show();
-
             return false;
         } else {
             editTextLoginPassword.setError(null);
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-
             return true;
         }
     }
 
-    //signInMethod 11
+    //Google signInMethod 11
     private void sigInMethod(){
         Intent googleSignInIntent=gsc.getSignInIntent();
         //buraya verdiğim requestcode aşağıda eşleme yapabilmek için kullancağız.
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //navigateToAdminActivity 11
+    //Google Sign In navigateToAdminActivity 11
     //şartlar uygunsa MainActivity'den AdminActivity gitsin
     private void navigateToAdminActivity() {
         finish();
@@ -168,8 +166,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //onCreate Start Codes
 
+        //loading
+        final dialog loadingDialog=new dialog(MainActivity.this);
+
         //Google Login id almak 11
         socialGoogleId=findViewById(R.id.socialGoogleId);
+
         //Google Sign in
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc=GoogleSignIn.getClient(this,gso);
@@ -179,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
             navigateToAdminActivity();
         }
 
+        // socialGoogleId on Click
         socialGoogleId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -268,6 +271,16 @@ public class MainActivity extends AppCompatActivity {
                         //Toast ==>  @string veri almak istiyorsak getString(R.string.stringAdi)
                         Toast.makeText(MainActivity.this, getString(R.string.admin_redirect), Toast.LENGTH_SHORT).show();
                         // startActivity(adminIndent);
+                       /* loadingDialog.startLoadingDialog();
+                        Handler handler=new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingDialog.dismissDialog();
+                                Intent intent=new Intent(MainActivity.this,AdminActivity.class);
+                                startActivity(intent);
+                            }
+                        },3000);*/
                     }
                     //eğer sisteme giriş yaparken herhangi bir hata alırsam examp: internet yok,kullanıcı yok
                 }).addOnFailureListener(new OnFailureListener() {

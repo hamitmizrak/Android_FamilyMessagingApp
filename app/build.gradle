@@ -32,11 +32,18 @@ dependencies {
     /*starts code*/
     //new added
 
+    /*material design */
+    implementation 'com.google.android.material:material:1.6.1'
+
     /*Google Signin integration android */
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
 
     /*circle image view*/
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    /* Glide:internetteki resimleri almak*/
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
     /* firebase uygulamada Firebase Assistan ==> email password Authentication Asistans*/
     implementation 'com.google.firebase:firebase-auth:19.2.0'
@@ -47,13 +54,6 @@ dependencies {
     /* firebase uygulamada Firebase Assistan ==>  Storage*/
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 
-    /* Glide:internetteki resimleri almak*/
-    implementation 'com.github.bumptech.glide:glide:4.13.2'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
-
-    /*circleImageView: profile resmi */
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-
     // firebase-bom:30.3.2 , firebase
     // analytics:web site trafik izlemek
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
@@ -61,7 +61,6 @@ dependencies {
 
     /* first project added */
     implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

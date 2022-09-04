@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="60dp"
+    tools:context=".LoadingActivity">
+
+    <!--progressBar-->
+    <ProgressBar
+        android:layout_width="80dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        style="?android:attr/progressBarStyle"
+        android:id="@+id/progressBar"/>
+
+    <!--Lütfen bekleyiniz-->
+    <TextView
+        android:layout_width="190dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="228dp"
+        android:text="Lütfen bekleyiniz"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/message"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

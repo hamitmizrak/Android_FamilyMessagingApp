@@ -77,7 +77,7 @@ public class TelephoneLoginActivity extends AppCompatActivity {
         callbackData=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                //ALTTAKININ AYNISI (44)
+                //ALTTAKININ AYNISI (155)
                 firebaseAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -145,13 +145,14 @@ public class TelephoneLoginActivity extends AppCompatActivity {
         };//end callbackData
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        //confirmationButtonId on Click Listener
         confirmationButtonId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(recognationId!=null){
                     PhoneAuthCredential credential=PhoneAuthProvider.getCredential(recognationId,edit_text_phoneCodeId.getText().toString());
                     //Kimlik sistemiyle login sistemine giriş
-                    ///DİKKAT ÜSTEKİNİN AYNISI(44)
+                    ///DİKKAT ÜSTEKİNİN AYNISI(81)
                     firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -200,6 +201,7 @@ public class TelephoneLoginActivity extends AppCompatActivity {
                     }); //end signInWithCredential
                 }//end if
                 else{
+                    //Unutma
                     verificationTelephone();
                 }//end else
             }//onClick
