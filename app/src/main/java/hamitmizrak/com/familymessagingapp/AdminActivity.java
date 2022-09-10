@@ -123,6 +123,9 @@ public class AdminActivity extends AppCompatActivity {
     //Menu itemlara tıkladğımda Çalışacak yer
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //sistemde bir kullanıcı var mı ?
+        firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+
         int chooise=item.getItemId();
         switch (chooise){
             case R.id.adminMenuPictureId:
@@ -143,7 +146,12 @@ public class AdminActivity extends AppCompatActivity {
                 break;//end Resim
 
             case R.id.adminMenuRefleshId:
-                Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
+
+                if(firebaseUser!=null){
+                    Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
+                    Intent refleshIndent=new Intent(AdminActivity.this,AdminActivity.class);
+                    startActivity(refleshIndent);
+                }
                 break;
 
             case R.id.adminMenuSettingId:
@@ -159,8 +167,7 @@ public class AdminActivity extends AppCompatActivity {
                 break;
 
             case R.id.adminMenuLogoutId:
-                //sistemde bir kullanıcı var mı ?
-                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+
                 if(firebaseUser!=null){
                     firebaseAuth.signOut();
                     Toast.makeText(this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();

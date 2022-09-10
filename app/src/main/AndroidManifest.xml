@@ -5,8 +5,11 @@
 
     <!-- permission:izin almak -->
 
-    <!--Resim dosya izni-->
+    <!--Firebase: Resim dosya Okuma izni-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <!--Firebase: Resim dosya Yazma izni-->
+    <uses-permission android:name="android.permission.WRITe_EXTERNAL_STORAGE"/>
 
     <!-- internet izni -->
     <uses-permission android:name="android.permission.INTERNET" />
