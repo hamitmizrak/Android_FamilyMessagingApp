@@ -186,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(browserLinkedin);
                     }
                 });
-                builder.show();
-            }//end onClick
+                builder.create().show();
+            } //end onClick
         });
 
         //loading

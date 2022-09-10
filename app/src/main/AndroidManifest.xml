@@ -2,25 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="hamitmizrak.com.familymessagingapp">
-
     <!-- permission:izin almak -->
-
-    <!--Firebase: Resim dosya Okuma izni-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-    <!--Firebase: Resim dosya Yazma izni-->
-    <uses-permission android:name="android.permission.WRITe_EXTERNAL_STORAGE"/>
-
-    <!-- internet izni -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- camera izni -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- telefon rehber izni izni -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <!-- konum izni -->
+    <!-- Firebase: Resim dosya Okuma izni -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Firebase: Resim dosya Yazma izni -->
+    <uses-permission android:name="android.permission.WRITe_EXTERNAL_STORAGE" /> <!-- internet izni -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- camera izni -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- telefon rehber izni izni -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- konum izni -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -34,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FamilyMessagingApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ChronometerActivity"
+            android:exported="false" />
         <activity
             android:name=".LoadingActivity"
             android:exported="false" />
@@ -56,4 +47,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

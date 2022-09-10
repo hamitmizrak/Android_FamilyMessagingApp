@@ -166,8 +166,14 @@ public class AdminActivity extends AppCompatActivity {
                 Toast.makeText(this, "Arka Plan Seçildi", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.adminMenuLogoutId:
+            case R.id.adminMenuChronometerId:
+                Toast.makeText(this, "Kronometre Seçildi", Toast.LENGTH_SHORT).show();
+                Intent chronometerPage=new Intent(AdminActivity.this,ChronometerActivity.class);
+                startActivity(chronometerPage);
+                break;
 
+
+            case R.id.adminMenuLogoutId:
                 if(firebaseUser!=null){
                     firebaseAuth.signOut();
                     Toast.makeText(this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
@@ -198,6 +204,16 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         //start
+
+        //Navbar id almak Toolbar id
+        myToolBarId=findViewById(R.id.myToolBarId);
+        //Menu
+        myToolBarId.setTitle("Admin");
+        //myToolBarId.setSubtitle("Uygulama Alanı");
+        myToolBarId.setLogo(R.drawable.logo);
+        // myToolBarId.setNavigationIcon(R.drawable.logo);
+        setSupportActionBar(myToolBarId);
+
         //Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser =firebaseAuth.getInstance().getCurrentUser();
@@ -256,14 +272,7 @@ public class AdminActivity extends AppCompatActivity {
             });
         }
 
-        //Navbar id almak Toolbar id
-        myToolBarId=findViewById(R.id.myToolBarId);
-        //Menu
-        myToolBarId.setTitle("Admin");
-        //myToolBarId.setSubtitle("Uygulama Alanı");
-        myToolBarId.setLogo(R.drawable.logo);
-        // myToolBarId.setNavigationIcon(R.drawable.logo);
-        setSupportActionBar(myToolBarId);
+
 
     } // end onCreate
 }//end AdminActivity
