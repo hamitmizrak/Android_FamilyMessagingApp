@@ -34,6 +34,13 @@ import com.google.firebase.storage.UploadTask;
 public class AdminActivity extends AppCompatActivity {
     //global variable
 
+    //google Sign In
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    TextView nameGoogleLoginId;
+    TextView emailGoogleLoginId;
+    Button signOutButtonId;
+
     // Resim Galeri işlemi için ekledim (Res55)
     private final static int PICTURE_CONST=44;
 
@@ -71,14 +78,7 @@ public class AdminActivity extends AppCompatActivity {
         firebaseAuth.removeAuthStateListener(authStateListener);
     } //end onStop
 
-    //google Sign In
-    GoogleSignInOptions gso;
-    GoogleSignInClient gsc;
-    TextView nameGoogleLoginId;
-    TextView emailGoogleLoginId;
-    Button signOutButtonId;
-
-    //Toolbar
+    //Toolbar(Menu)
     private Toolbar myToolBarId;
 
     //menu çalışabilmesi için
@@ -120,13 +120,11 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-
     //Menu itemlara tıkladğımda Çalışacak yer
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int chooise=item.getItemId();
         switch (chooise){
-
             case R.id.adminMenuPictureId:
                 //Resim Galerisi ayarları
                 Toast.makeText(getApplicationContext(), "Resim seçildi", Toast.LENGTH_SHORT).show();
@@ -161,7 +159,14 @@ public class AdminActivity extends AppCompatActivity {
                 break;
 
             case R.id.adminMenuLogoutId:
-                Toast.makeText(this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
+                //sistemde bir kullanıcı var mı ?
+                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+                if(firebaseUser!=null){
+                    firebaseAuth.signOut();
+                    Toast.makeText(this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
+                    Intent homePage=new Intent(AdminActivity.this,MainActivity.class);
+                    startActivity(homePage);
+                }
                 break;
         }
         //end return
