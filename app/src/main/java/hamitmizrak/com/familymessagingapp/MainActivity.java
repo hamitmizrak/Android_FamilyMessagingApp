@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -33,6 +34,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     //global variable
+
+    //Linkedin AutoLink
+    CircleImageView socialLinkedinId;
 
     //Google Sign in 11
     GoogleSignInOptions gso;
@@ -165,6 +169,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //onCreate Start Codes
+
+        //Linkedin AutoLink
+        socialLinkedinId=findViewById(R.id.socialLinkedinId);
+        socialLinkedinId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText linkedinDialog=new EditText(view.getContext());
+                AlertDialog.Builder outApplicationBrowserDialog=new AlertDialog.Builder(view.getContext());
+                outApplicationBrowserDialog.setTitle("Out Application ");
+                outApplicationBrowserDialog.setMessage("Uygulama Dışına çıkmayı gerçekten istiyor musunuz  ");
+                outApplicationBrowserDialog.setView(linkedinDialog);
+
+                //Evet Dialog
+                outApplicationBrowserDialog.setPositiveButton("EVET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Linkedin Sayfasına gidiliyor", Toast.LENGTH_SHORT).show();
+                        //Uri: Android.net
+                        Intent browserLinkedin=new Intent(Intent.ACTION_VIEW, Uri.parse(SocialAddressUri.linkedinUri));
+                        startActivity(browserLinkedin);
+                    }
+                }); //end positiveButton
+
+                outApplicationBrowserDialog.setNegativeButton("HAYIR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Seçim Değişti", Toast.LENGTH_SHORT).show();
+                    }
+                });//end setNegativeButton
+
+                Intent browserLinkedin=new Intent(Intent.ACTION_VIEW, Uri.parse(SocialAddressUri.linkedinUri));
+                startActivity(browserLinkedin);
+            }//end onClick
+        });
 
         //loading
         final dialog loadingDialog=new dialog(MainActivity.this);
