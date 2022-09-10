@@ -175,32 +175,18 @@ public class MainActivity extends AppCompatActivity {
         socialLinkedinId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText linkedinDialog=new EditText(view.getContext());
-                AlertDialog.Builder outApplicationBrowserDialog=new AlertDialog.Builder(view.getContext());
-                outApplicationBrowserDialog.setTitle("Out Application ");
-                outApplicationBrowserDialog.setMessage("Uygulama Dışına çıkmayı gerçekten istiyor musunuz  ");
-                outApplicationBrowserDialog.setView(linkedinDialog);
-
-                //Evet Dialog
-                outApplicationBrowserDialog.setPositiveButton("EVET", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("OutSide Page");
+                builder.setMessage("Uygulama Duşına mı çıkmak istiyorsunuz ?");
+                builder.setNegativeButton("Hayır",null);
+                builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "Linkedin Sayfasına gidiliyor", Toast.LENGTH_SHORT).show();
-                        //Uri: Android.net
                         Intent browserLinkedin=new Intent(Intent.ACTION_VIEW, Uri.parse(SocialAddressUri.linkedinUri));
                         startActivity(browserLinkedin);
                     }
-                }); //end positiveButton
-
-                outApplicationBrowserDialog.setNegativeButton("HAYIR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "Seçim Değişti", Toast.LENGTH_SHORT).show();
-                    }
-                });//end setNegativeButton
-
-                Intent browserLinkedin=new Intent(Intent.ACTION_VIEW, Uri.parse(SocialAddressUri.linkedinUri));
-                startActivity(browserLinkedin);
+                });
+                builder.show();
             }//end onClick
         });
 
