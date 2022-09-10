@@ -187,7 +187,7 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         //start
 
-        //Firebase Instance
+        //Firebase Instance (resim)
         firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -200,9 +200,9 @@ public class AdminActivity extends AppCompatActivity {
         //Firebase Storage(Resim)
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        //Realtime database için
+        //Realtime database  (resim)
         databaseReferances = FirebaseDatabase.getInstance().getReference("users");
-        //end codes
+
 
         //Google Sign In Account
         signOutButtonId=findViewById(R.id.signOutButtonId);
