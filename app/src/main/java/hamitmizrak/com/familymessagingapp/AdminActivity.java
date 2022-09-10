@@ -198,9 +198,24 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         //start
+        //Firebase Auth
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser =firebaseAuth.getInstance().getCurrentUser();
+
+        //id almak Google Sign In Account
+        signOutButtonId=findViewById(R.id.signOutButtonId);
+        nameGoogleLoginId=findViewById(R.id.nameGoogleLoginId);
+        emailGoogleLoginId=findViewById(R.id.emailGoogleLoginId);
+
+        //admin sayfasında Kullanıcı emaili göstermek
+        if(firebaseUser!=null){
+            String email=firebaseAuth.getCurrentUser().getEmail();
+            emailGoogleLoginId.setText(email);
+            String name=firebaseAuth.getCurrentUser().getDisplayName();
+            nameGoogleLoginId.setText(name);
+        }
 
         //Firebase Instance (resim)
-        firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -216,10 +231,7 @@ public class AdminActivity extends AppCompatActivity {
         databaseReferances = FirebaseDatabase.getInstance().getReference("users");
 
 
-        //Google Sign In Account
-        signOutButtonId=findViewById(R.id.signOutButtonId);
-        nameGoogleLoginId=findViewById(R.id.nameGoogleLoginId);
-        emailGoogleLoginId=findViewById(R.id.emailGoogleLoginId);
+
 
         // gso ve gsc instance
         gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
