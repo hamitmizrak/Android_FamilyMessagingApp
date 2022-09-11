@@ -2,6 +2,7 @@ package hamitmizrak.com.familymessagingapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +27,22 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Map;
+
 public class AdminActivity extends AppCompatActivity {
     //global variable
+
+    // Firebase üzerinden Select sorgusu
+    private String addPersonEmail;
 
     //google Sign In
     GoogleSignInOptions gso;
@@ -146,7 +156,6 @@ public class AdminActivity extends AppCompatActivity {
                 break;//end Resim
 
             case R.id.adminMenuRefleshId:
-
                 if(firebaseUser!=null){
                     Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
                     Intent refleshIndent=new Intent(AdminActivity.this,AdminActivity.class);
@@ -160,6 +169,52 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminPersonId:
                 Toast.makeText(this, "Kişi Seçildi", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(this);
+                //Custom Dialog object
+                //Android View
+                View viewDialog=getLayoutInflater().inflate(R.layout.add_person,null);
+                alertDialogBuilder.setView(viewDialog);
+                AlertDialog alertDialog=alertDialogBuilder.create();
+                alertDialog.show();
+
+                //add_person.xml Email input verisini erişmek
+                EditText editTextAddPersonMailId=viewDialog.findViewById(R.id.editTextAddPersonMailId);
+                Button buttonAddPerson=viewDialog.findViewById(R.id.buttonAddPerson);
+
+                //Custom Dialog Button Tıkladğımda
+                buttonAddPerson.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if(!editTextAddPersonMailId.getText().toString().isEmpty()){
+                            addPersonEmail=editTextAddPersonMailId.getText().toString();
+                            editTextAddPersonMailId.setText("");
+                            alertDialog.hide();
+
+                           databaseReferances.orderByChild("mail_addresim").equalTo(addPersonEmail)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            //System.out.println("SORGU: "+snapshot.getValue().toString());
+
+                                            for(DataSnapshot temp:snapshot.getChildren()){
+                                                Map<String,String> mapUSerKey= (Map<String, String>) temp.getValue();
+                                                System.out.println("Mail: "+mapUSerKey.get("mail_addresim"));
+                                                DatabaseReference searchDatabaseReferences=databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
+                                                searchDatabaseReferences.push().setValue(mapUSerKey.get("mail_addresim"));
+                                            }
+                                            Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(AdminActivity.this, "Sorgualamada hata meydana geldi", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } //end if
+                    } //end onClick
+                }); //end setOnClickListener
+
                 break;
 
             case R.id.adminBackgroundColorId:
@@ -245,8 +300,6 @@ public class AdminActivity extends AppCompatActivity {
 
         //Realtime database  (resim)
         databaseReferances = FirebaseDatabase.getInstance().getReference("users");
-
-
 
 
         // gso ve gsc instance
