@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +38,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity {
     //global variable
 
-    // Firebase üzerinden Select sorgusu
-    private String addPersonEmail;
+    //ListView
+    private DatabaseReference databaseReferencesParentRoot;
+    private ListAdapter listAdapter;
+    private List<AdminListViewAdapter> mListAdapter;
+    private ListView listView;
 
     //google Sign In
     GoogleSignInOptions gso;
@@ -52,16 +59,20 @@ public class AdminActivity extends AppCompatActivity {
     Button signOutButtonId;
 
     // Resim Galeri işlemi için ekledim (Res55)
-    private final static int PICTURE_CONST=44;
+    private final static int PICTURE_CONST = 44;
 
-    //Firebase işlerimleri
-    private FirebaseAuth firebaseAuth;
 
     //Realtime database için
     private DatabaseReference databaseReferances;
     private DatabaseReference userReferances;
     private DatabaseReference mailReferances;
     private DatabaseReference imageReferances;
+
+    // Firebase üzerinden Select sorgusu
+    private String addPersonEmail;
+
+    //Firebase işlerimleri
+    private FirebaseAuth firebaseAuth;
 
     //Firebase User
     private FirebaseUser firebaseUser;
@@ -94,7 +105,7 @@ public class AdminActivity extends AppCompatActivity {
     //menu çalışabilmesi için
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu tempMenu) {
-        getMenuInflater().inflate(R.menu.admin_menu,tempMenu);
+        getMenuInflater().inflate(R.menu.admin_menu, tempMenu);
         return super.onCreateOptionsMenu(tempMenu);
     }
 
@@ -134,10 +145,10 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //sistemde bir kullanıcı var mı ?
-        firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        int chooise=item.getItemId();
-        switch (chooise){
+        int chooise = item.getItemId();
+        switch (chooise) {
             case R.id.adminMenuPictureId:
                 //Resim Galerisi ayarları
                 Toast.makeText(getApplicationContext(), "Resim seçildi", Toast.LENGTH_SHORT).show();
@@ -156,9 +167,9 @@ public class AdminActivity extends AppCompatActivity {
                 break;//end Resim
 
             case R.id.adminMenuRefleshId:
-                if(firebaseUser!=null){
+                if (firebaseUser != null) {
                     Toast.makeText(this, "Reflesh Seçildi", Toast.LENGTH_SHORT).show();
-                    Intent refleshIndent=new Intent(AdminActivity.this,AdminActivity.class);
+                    Intent refleshIndent = new Intent(AdminActivity.this, AdminActivity.class);
                     startActivity(refleshIndent);
                 }
                 break;
@@ -169,48 +180,58 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminPersonId:
                 Toast.makeText(this, "Kişi Seçildi", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alertDialogBuilder=new AlertDialog.Builder(this);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 //Custom Dialog object
                 //Android View
-                View viewDialog=getLayoutInflater().inflate(R.layout.add_person,null);
+                View viewDialog = getLayoutInflater().inflate(R.layout.add_person, null);
                 alertDialogBuilder.setView(viewDialog);
-                AlertDialog alertDialog=alertDialogBuilder.create();
+                AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
 
                 //add_person.xml Email input verisini erişmek
-                EditText editTextAddPersonMailId=viewDialog.findViewById(R.id.editTextAddPersonMailId);
-                Button buttonAddPerson=viewDialog.findViewById(R.id.buttonAddPerson);
+                EditText editTextAddPersonMailId = viewDialog.findViewById(R.id.editTextAddPersonMailId);
+                Button buttonAddPerson = viewDialog.findViewById(R.id.buttonAddPerson);
 
                 //Custom Dialog Button Tıkladğımda
                 buttonAddPerson.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if(!editTextAddPersonMailId.getText().toString().isEmpty()){
-                            addPersonEmail=editTextAddPersonMailId.getText().toString();
+                        if (!editTextAddPersonMailId.getText().toString().isEmpty()) {
+                            addPersonEmail = editTextAddPersonMailId.getText().toString();
                             editTextAddPersonMailId.setText("");
                             alertDialog.hide();
 
-                           databaseReferances.orderByChild("mail_addresim").equalTo(addPersonEmail)
+                            databaseReferances.orderByChild("mail_addresim").equalTo(addPersonEmail)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             //System.out.println("SORGU: "+snapshot.getValue().toString());
 
-                                            for(DataSnapshot temp:snapshot.getChildren()){
-                                                Map<String,String> mapUSerKey= (Map<String, String>) temp.getValue();
-                                                System.out.println("Mail: "+mapUSerKey.get("mail_addresim"));
-                                                DatabaseReference searchDatabaseReferences=databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
-                                                searchDatabaseReferences.push().setValue(mapUSerKey.get("mail_addresim"));
+                                            for (DataSnapshot temp : snapshot.getChildren()) {
+                                                Map<String, String> personDetail = (Map<String, String>) temp.getValue();
+                                                System.out.println("Mail: " + personDetail.get("mail_addresim"));
+                                                System.out.println("Mail: " + personDetail.get("resimim"));
+                                                DatabaseReference searchDatabaseReferences = databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
+                                                searchDatabaseReferences.push().setValue(personDetail.get("mail_addresim"));
+
+                                                //picasso
+                                                mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"),personDetail.get("resimim")));
+                                                Toast.makeText(AdminActivity.this, "LİST: "+mListAdapter, Toast.LENGTH_SHORT).show();
                                             }
                                             Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
+
+                                            //listleri tazelemek
+                                            listView.invalidateViews();
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
                                             Toast.makeText(AdminActivity.this, "Sorgualamada hata meydana geldi", Toast.LENGTH_SHORT).show();
                                         }
-                                    });
+                                    });//end addListenerForSingleValueEvent
+
                         } //end if
                     } //end onClick
                 }); //end setOnClickListener
@@ -223,16 +244,16 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminMenuChronometerId:
                 Toast.makeText(this, "Kronometre Seçildi", Toast.LENGTH_SHORT).show();
-                Intent chronometerPage=new Intent(AdminActivity.this,ChronometerActivity.class);
+                Intent chronometerPage = new Intent(AdminActivity.this, ChronometerActivity.class);
                 startActivity(chronometerPage);
                 break;
 
 
             case R.id.adminMenuLogoutId:
-                if(firebaseUser!=null){
+                if (firebaseUser != null) {
                     firebaseAuth.signOut();
                     Toast.makeText(this, "Çıkış Yapıldı", Toast.LENGTH_SHORT).show();
-                    Intent homePage=new Intent(AdminActivity.this,MainActivity.class);
+                    Intent homePage = new Intent(AdminActivity.this, MainActivity.class);
                     startActivity(homePage);
                 }
                 break;
@@ -242,13 +263,13 @@ public class AdminActivity extends AppCompatActivity {
     }//end onOptionsItemSelected
 
     //Google Sign Auth Güvenli Çıkış
-    private void signOutMethod(){
+    private void signOutMethod() {
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 finish();
                 //güvenli çıkış yaptıkran sonra nere gidelim. ?
-                startActivity(new Intent(AdminActivity.this,MainActivity.class));
+                startActivity(new Intent(AdminActivity.this, MainActivity.class));
             }
         });
     }
@@ -260,8 +281,11 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         //start
 
+        //picasso
+        mListAdapter=new ArrayList<>();
+
         //Navbar id almak Toolbar id
-        myToolBarId=findViewById(R.id.myToolBarId);
+        myToolBarId = findViewById(R.id.myToolBarId);
         //Menu
         myToolBarId.setTitle("Admin");
         //myToolBarId.setSubtitle("Uygulama Alanı");
@@ -271,19 +295,20 @@ public class AdminActivity extends AppCompatActivity {
 
         //Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser =firebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = firebaseAuth.getInstance().getCurrentUser();
+        databaseReferencesParentRoot=FirebaseDatabase.getInstance().getReference("users");
 
         //id almak Google Sign In Account
-        signOutButtonId=findViewById(R.id.signOutButtonId);
-        nameGoogleLoginId=findViewById(R.id.nameGoogleLoginId);
-        emailGoogleLoginId=findViewById(R.id.emailGoogleLoginId);
+        signOutButtonId = findViewById(R.id.signOutButtonId);
+        //nameGoogleLoginId = findViewById(R.id.nameGoogleLoginId);
+        emailGoogleLoginId = findViewById(R.id.emailGoogleLoginId);
 
         //admin sayfasında Kullanıcı emaili göstermek
-        if(firebaseUser!=null){
-            String email=firebaseAuth.getCurrentUser().getEmail();
+        if (firebaseUser != null) {
+            String email = firebaseAuth.getCurrentUser().getEmail();
             emailGoogleLoginId.setText(email);
-            String name=firebaseAuth.getCurrentUser().getDisplayName();
-            nameGoogleLoginId.setText(name);
+            String name = firebaseAuth.getCurrentUser().getDisplayName();
+            //nameGoogleLoginId.setText(name);
         }
 
         //Firebase Instance (resim)
@@ -303,18 +328,18 @@ public class AdminActivity extends AppCompatActivity {
 
 
         // gso ve gsc instance
-        gso=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc=GoogleSignIn.getClient(this,gso);
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
 
         //button signOutButtonId
         signOutButtonId.setVisibility(View.INVISIBLE);
 
         //google SingInAccount
-        GoogleSignInAccount signInAccount= GoogleSignIn.getLastSignedInAccount(this);
-        if(signInAccount!=null){
-            String name=signInAccount.getDisplayName();
-            String email=signInAccount.getEmail();
-            nameGoogleLoginId.setText(name);
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (signInAccount != null) {
+            String name = signInAccount.getDisplayName();
+            String email = signInAccount.getEmail();
+            //nameGoogleLoginId.setText(name);
             emailGoogleLoginId.setText(email);
             signOutButtonId.setVisibility(View.VISIBLE);
             signOutButtonId.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +349,6 @@ public class AdminActivity extends AppCompatActivity {
                 }
             });
         }
-
 
 
     } // end onCreate
