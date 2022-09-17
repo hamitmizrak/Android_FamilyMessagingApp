@@ -4,13 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/admin_page"
     tools:context=".AdminActivity">
 
     <!--toolbar eklemek-->
     <include
         android:id="@+id/myToolBarId"
         layout="@layout/my_toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@color/purple_200"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Email"
+        android:textColor="#ffffff"
+        android:id="@+id/userEmailAddressId"/>
+
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +50,7 @@
         android:id="@+id/nameGoogleLoginId"/>-->
 
     <!-- Google email-->
-    <TextView
+  <!--  <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameGoogleLoginId"
@@ -47,7 +59,7 @@
         android:text="Email"
         android:textSize="14dp"
         android:textColor="@color/white"
-        android:id="@+id/emailGoogleLoginId"/>
+        android:id="@+id/emailGoogleLoginId"/>-->
 
     <!--  google sign IN logout-->
     <Button

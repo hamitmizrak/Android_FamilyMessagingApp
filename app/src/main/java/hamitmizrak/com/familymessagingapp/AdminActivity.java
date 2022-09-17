@@ -45,6 +45,8 @@ import java.util.Map;
 public class AdminActivity extends AppCompatActivity {
     //global variable
 
+    private TextView userEmailAddressId;
+
     //ListView
     private DatabaseReference databaseReferencesParentRoot;
     private ListAdapter listAdapter;
@@ -202,13 +204,11 @@ public class AdminActivity extends AppCompatActivity {
                             addPersonEmail = editTextAddPersonMailId.getText().toString();
                             editTextAddPersonMailId.setText("");
                             alertDialog.hide();
-
                             databaseReferances.orderByChild("mail_addresim").equalTo(addPersonEmail)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             //System.out.println("SORGU: "+snapshot.getValue().toString());
-
                                             for (DataSnapshot temp : snapshot.getChildren()) {
                                                 Map<String, String> personDetail = (Map<String, String>) temp.getValue();
                                                 System.out.println("Mail: " + personDetail.get("mail_addresim"));
@@ -216,14 +216,12 @@ public class AdminActivity extends AppCompatActivity {
                                                 DatabaseReference searchDatabaseReferences = databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
                                                 searchDatabaseReferences.push().setValue(personDetail.get("mail_addresim"));
 
-                                                //picasso
-                                                mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"),personDetail.get("resimim")));
+
                                                 Toast.makeText(AdminActivity.this, "LİST: "+mListAdapter, Toast.LENGTH_SHORT).show();
                                             }
                                             Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
 
-                                            //listleri tazelemek
-                                            listView.invalidateViews();
+
                                         }
 
                                         @Override
@@ -282,13 +280,15 @@ public class AdminActivity extends AppCompatActivity {
         //start
 
         //picasso
+        //Admin page email addres added
+        userEmailAddressId=findViewById(R.id.userEmailAddressId);
+
+        //picasso
         mListAdapter=new ArrayList<>();
 
         //Navbar id almak Toolbar id
         myToolBarId = findViewById(R.id.myToolBarId);
-        //Menu
         myToolBarId.setTitle("Admin");
-        //myToolBarId.setSubtitle("Uygulama Alanı");
         myToolBarId.setLogo(R.drawable.logo);
         // myToolBarId.setNavigationIcon(R.drawable.logo);
         setSupportActionBar(myToolBarId);
@@ -301,12 +301,12 @@ public class AdminActivity extends AppCompatActivity {
         //id almak Google Sign In Account
         signOutButtonId = findViewById(R.id.signOutButtonId);
         //nameGoogleLoginId = findViewById(R.id.nameGoogleLoginId);
-        emailGoogleLoginId = findViewById(R.id.emailGoogleLoginId);
+       // emailGoogleLoginId = findViewById(R.id.emailGoogleLoginId);
 
         //admin sayfasında Kullanıcı emaili göstermek
         if (firebaseUser != null) {
             String email = firebaseAuth.getCurrentUser().getEmail();
-            emailGoogleLoginId.setText(email);
+            //emailGoogleLoginId.setText(email);
             String name = firebaseAuth.getCurrentUser().getDisplayName();
             //nameGoogleLoginId.setText(name);
         }
@@ -349,6 +349,16 @@ public class AdminActivity extends AppCompatActivity {
                 }
             });
         }
+
+        DatabaseReference ref1=FirebaseDatabase.getInstance().getReference("users").child(firebaseAuth.getCurrentUser().getUid());
+        //burdayım 4444
+
+        //listView göstermek
+        listAdapter=new AdminListAdapter(getApplicationContext(),mListAdapter);
+        listView=findViewById(R.id.listView_person);
+        listView.setAdapter(listAdapter);
+        listView.invalidateViews();
+
 
 
     } // end onCreate
