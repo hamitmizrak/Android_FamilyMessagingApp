@@ -12,7 +12,7 @@ import android.widget.Chronometer;
 public class ChronometerActivity extends AppCompatActivity {
     //globall variable
     //Toolbar(Menu)
-    private Toolbar myToolBarId;
+    private Toolbar toolbar;
 
     Button chronometerStartId;
     Button chronometerPauseId;
@@ -25,17 +25,18 @@ public class ChronometerActivity extends AppCompatActivity {
         //start codes
 
         //Navbar id almak Toolbar myToolBarChronometerId id
-        myToolBarId=findViewById(R.id.myToolBarChronometerId);
-        myToolBarId.setTitle("Admin");
-        myToolBarId.setLogo(R.drawable.logo);
-        setSupportActionBar(myToolBarId);
+        toolbar=findViewById(R.id.myChronometerToolBarId);
+        toolbar.setTitle("Kronometre");
+        toolbar.setLogo(R.drawable.logo);
+        setSupportActionBar(toolbar);
 
         //button id almak
         chronometerStartId=findViewById(R.id.chronometerStartId);
         chronometerPauseId=findViewById(R.id.chronometerPauseId);
         chronometerRestartId=findViewById(R.id.chronometerRestartId);
 
-        //Kronometre
+
+        //Kronometreimplementation 'com.squareup.picasso:picasso:2.5.2'
         Chronometer chronometer=findViewById(R.id.chronometer2);
 
         chronometerStartId.setOnClickListener(new View.OnClickListener() {

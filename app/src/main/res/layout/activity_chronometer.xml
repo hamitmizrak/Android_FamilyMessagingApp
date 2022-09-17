@@ -9,11 +9,10 @@
 
     <!--toolbar eklemek-->
     <include
-        android:id="@+id/myToolBarChronometerId"
+        android:id="@+id/myChronometerToolBarId"
         layout="@layout/my_toolbar" />
 
     <Chronometer
-        android:id="@+id/chronometer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00"
@@ -22,7 +21,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/chronometer2"/>
 
     <Button
         android:id="@+id/chronometerStartId"
