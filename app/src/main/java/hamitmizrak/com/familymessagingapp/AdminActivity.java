@@ -132,7 +132,18 @@ public class AdminActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(AdminActivity.this, "Resminiz firebase Yüklendi", Toast.LENGTH_SHORT).show();
                     //resim yüklendikten sonra database yani realtime ekliyoruz.
-                    imageReferances.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
+                    //imageReferances.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
+
+                    //resime path alabilmek download link
+                    Task<Uri> result=taskSnapshot.getStorage().getDownloadUrl();
+                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageUrl=uri.toString();
+                            //image tıklanabiliri url ekledim
+                            imageReferances.setValue(imageUrl);
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() { //Resim yükelmede sıkıntı çıkarsa
                 @Override
@@ -204,7 +215,7 @@ public class AdminActivity extends AppCompatActivity {
                             addPersonEmail = editTextAddPersonMailId.getText().toString();
                             editTextAddPersonMailId.setText("");
                             alertDialog.hide();
-                            databaseReferances.orderByChild("mail_addresim").equalTo(addPersonEmail)
+                            databaseReferencesParentRoot.orderByChild("mail_addresim").equalTo(addPersonEmail)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -212,15 +223,13 @@ public class AdminActivity extends AppCompatActivity {
                                             for (DataSnapshot temp : snapshot.getChildren()) {
                                                 Map<String, String> personDetail = (Map<String, String>) temp.getValue();
                                                 System.out.println("Mail: " + personDetail.get("mail_addresim"));
-                                                System.out.println("Mail: " + personDetail.get("resimim"));
+                                                System.out.println("Resim: " + personDetail.get("resimim"));
                                                 DatabaseReference searchDatabaseReferences = databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
                                                 searchDatabaseReferences.push().setValue(personDetail.get("mail_addresim"));
-
 
                                                 Toast.makeText(AdminActivity.this, "LİST: "+mListAdapter, Toast.LENGTH_SHORT).show();
                                             }
                                             Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
-
 
                                         }
 
@@ -233,7 +242,6 @@ public class AdminActivity extends AppCompatActivity {
                         } //end if
                     } //end onClick
                 }); //end setOnClickListener
-
                 break;
 
             case R.id.adminBackgroundColorId:
@@ -309,6 +317,7 @@ public class AdminActivity extends AppCompatActivity {
             //emailGoogleLoginId.setText(email);
             String name = firebaseAuth.getCurrentUser().getDisplayName();
             //nameGoogleLoginId.setText(name);
+            userEmailAddressId.setText(email);
         }
 
         //Firebase Instance (resim)
@@ -350,16 +359,52 @@ public class AdminActivity extends AppCompatActivity {
             });
         }
 
+        //list view
         DatabaseReference ref1=FirebaseDatabase.getInstance().getReference("users").child(firebaseAuth.getCurrentUser().getUid());
-        //burdayım 4444
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot snapshot) {
+                DataSnapshot dataSnapshot=snapshot.child("new_user");
+                for(DataSnapshot temp: dataSnapshot.getChildren()){
+                    String personName=temp.getValue(String.class);
+                    System.err.println("Arkadaş Listesi: "+personName);
+                    Toast.makeText(AdminActivity.this, "Arkadaş Listesi: "+personName, Toast.LENGTH_LONG).show();
+
+                    databaseReferencesParentRoot.orderByChild("mail_addresim").equalTo(personName).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for(DataSnapshot tempDetail: snapshot.getChildren()){
+                                Map<String,String> personDetail= (Map<String, String>) tempDetail.getValue();
+                                System.out.println("Resim Path: "+personDetail.get("resimim"));
+
+                                mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"),personDetail.get("resimim")));
+                                Toast.makeText(AdminActivity.this, mListAdapter+" ", Toast.LENGTH_LONG).show();
+                            } //end for
+
+                            //listeyi yenilemek
+                            listView.invalidateViews();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(AdminActivity.this, " Resim veri göstermede bir sıkıntı meydana geldi", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AdminActivity.this, "internetiniz veya bağlantı sorunu yaşıyorsunuz sonra tekrar deneyiniz", Toast.LENGTH_LONG).show();
+            }
+        }); // end  ref1.addValueEventListener
 
         //listView göstermek
         listAdapter=new AdminListAdapter(getApplicationContext(),mListAdapter);
         listView=findViewById(R.id.listView_person);
         listView.setAdapter(listAdapter);
         listView.invalidateViews();
-
-
 
     } // end onCreate
 }//end AdminActivity
