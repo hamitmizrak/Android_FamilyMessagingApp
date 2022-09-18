@@ -10,9 +10,7 @@
         android:iconTint="#3290E3"
         app:showAsAction="always"/>
 
-    <item
-        android:title="Ayarlar"
-        android:id="@+id/adminMenuSettingId"/>
+
 
     <item
         android:title="Kişi"
@@ -23,12 +21,20 @@
         android:id="@+id/adminMenuPictureId"/>
 
     <item
-        android:title="Arka Plan"
-        android:id="@+id/adminBackgroundColorId"/>
+        android:title="Sistem Bilgileri"
+        android:id="@+id/adminMenuSettingId"/>
+
+    <item
+        android:title="Wifi"
+        android:id="@+id/adminWifiId"/>
 
     <item
         android:title="Kronometre"
         android:id="@+id/adminMenuChronometerId"/>
+
+    <item
+        android:title="Arka Plan"
+        android:id="@+id/adminBackgroundColorId"/>
 
     <item
         android:title="Çıkış"

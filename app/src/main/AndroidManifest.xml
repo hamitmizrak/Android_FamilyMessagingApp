@@ -4,8 +4,16 @@
     package="hamitmizrak.com.familymessagingapp">
     <!-- permission:izin almak -->
     <!-- Firebase: Resim dosya Okuma izni -->
+    <!--wifi-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!--mac address-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
+    <uses-permission android:name="android.permission.LOCAL_MAC_ADDRESS" />
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Firebase: Resim dosya Yazma izni -->
-    <uses-permission android:name="android.permission.WRITe_EXTERNAL_STORAGE" /> <!-- internet izni -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- internet izni -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- camera izni -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- telefon rehber izni izni -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- konum izni -->

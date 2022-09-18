@@ -6,8 +6,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +51,13 @@ import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity {
     //global variable
+    WifiManager wifiManager = null;
 
+    //wifi için sayaç
+     static int wifiCounter=0;
+
+
+    //admin giriş yapıldığı hangi kullanıcı olduğunu anlamak için
     private TextView userEmailAddressId;
 
     //ListView
@@ -135,11 +148,11 @@ public class AdminActivity extends AppCompatActivity {
                     //imageReferances.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
 
                     //resime path alabilmek download link
-                    Task<Uri> result=taskSnapshot.getStorage().getDownloadUrl();
+                    Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
                     result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            String imageUrl=uri.toString();
+                            String imageUrl = uri.toString();
                             //image tıklanabiliri url ekledim
                             imageReferances.setValue(imageUrl);
                         }
@@ -153,6 +166,67 @@ public class AdminActivity extends AppCompatActivity {
             });
         }
     }
+
+
+    //switch case için methods
+    //wifi aç kapat
+    private void wifiOpen() {
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(getApplicationContext().WIFI_SERVICE);
+        //eğer wifi kapatılmışsa
+        if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+            //kapalı olan açmak için
+            wifiManager.setWifiEnabled(true);
+            Toast.makeText(this, "Wifi Açıldı", Toast.LENGTH_LONG).show();
+        }else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLING){
+            Toast.makeText(this, "Wifi Zaten açılmış", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void wifiClose() {
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(getApplicationContext().WIFI_SERVICE);
+        //eğer wifi açıksa
+        if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+            //açık olanı kapatmak  için
+            wifiManager.setWifiEnabled(false);
+            Toast.makeText(this, "Wifi kapatıldı", Toast.LENGTH_LONG).show();
+        }else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_DISABLING){
+            Toast.makeText(this, "Wifi zaten kapalı ", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //system information mac Addres
+    @SuppressLint("MissingPermission")
+    private String getMacAddress() {
+        try {
+            Context cntxt = getApplicationContext();
+            WifiManager wifi = (WifiManager) cntxt.getSystemService(Context.WIFI_SERVICE);
+            if (wifi == null) return "Failed: WiFiManager is null";
+
+            WifiInfo info = wifi.getConnectionInfo();
+            if (info == null) return "Failed: WifiInfo is null";
+
+            return info.getMacAddress();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Nothing";
+    }
+
+    private String getMacAddress2() {
+        //Mac Addres
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        String result = "";
+        try {
+            WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            return wifiInfo.getMacAddress();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "00:00:00";
+        }// end macAddress
+    }
+
 
     //Menu itemlara tıkladğımda Çalışacak yer
     @Override
@@ -188,7 +262,11 @@ public class AdminActivity extends AppCompatActivity {
                 break;
 
             case R.id.adminMenuSettingId:
-                Toast.makeText(this, "Ayarlar Seçildi", Toast.LENGTH_SHORT).show();
+                StringBuilder stringBuilder = new StringBuilder();
+                //Model ve üretici firma(MANUFACTURER)
+                stringBuilder.append("Model: " + Build.MODEL).append(" Üretici Firma: " + Build.MANUFACTURER).append(" " + getMacAddress()).append(" " + getMacAddress2());
+                String allInformation = stringBuilder.toString();
+                Toast.makeText(this, "Sistem bilgileri: " + allInformation, Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.adminPersonId:
@@ -227,7 +305,7 @@ public class AdminActivity extends AppCompatActivity {
                                                 DatabaseReference searchDatabaseReferences = databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
                                                 searchDatabaseReferences.push().setValue(personDetail.get("mail_addresim"));
 
-                                                Toast.makeText(AdminActivity.this, "LİST: "+mListAdapter, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AdminActivity.this, "LİST: " + mListAdapter, Toast.LENGTH_SHORT).show();
                                             }
                                             Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
 
@@ -246,6 +324,17 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminBackgroundColorId:
                 Toast.makeText(this, "Arka Plan Seçildi", Toast.LENGTH_SHORT).show();
+                break;
+
+
+            case R.id.adminWifiId:
+                Toast.makeText(this, "Wifi Seçildi", Toast.LENGTH_SHORT).show();
+                        if(wifiCounter%2==0){
+                            wifiOpen();
+                        }else{
+                            wifiClose();
+                        }
+                        wifiCounter++;
                 break;
 
             case R.id.adminMenuChronometerId:
@@ -289,10 +378,10 @@ public class AdminActivity extends AppCompatActivity {
 
         //picasso
         //Admin page email addres added
-        userEmailAddressId=findViewById(R.id.userEmailAddressId);
+        userEmailAddressId = findViewById(R.id.userEmailAddressId);
 
         //picasso
-        mListAdapter=new ArrayList<>();
+        mListAdapter = new ArrayList<>();
 
         //Navbar id almak Toolbar id
         myToolBarId = findViewById(R.id.myToolBarId);
@@ -304,12 +393,12 @@ public class AdminActivity extends AppCompatActivity {
         //Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();
-        databaseReferencesParentRoot=FirebaseDatabase.getInstance().getReference("users");
+        databaseReferencesParentRoot = FirebaseDatabase.getInstance().getReference("users");
 
         //id almak Google Sign In Account
         signOutButtonId = findViewById(R.id.signOutButtonId);
         //nameGoogleLoginId = findViewById(R.id.nameGoogleLoginId);
-       // emailGoogleLoginId = findViewById(R.id.emailGoogleLoginId);
+        // emailGoogleLoginId = findViewById(R.id.emailGoogleLoginId);
 
         //admin sayfasında Kullanıcı emaili göstermek
         if (firebaseUser != null) {
@@ -360,25 +449,25 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         //list view
-        DatabaseReference ref1=FirebaseDatabase.getInstance().getReference("users").child(firebaseAuth.getCurrentUser().getUid());
+        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("users").child(firebaseAuth.getCurrentUser().getUid());
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange( DataSnapshot snapshot) {
-                DataSnapshot dataSnapshot=snapshot.child("new_user");
-                for(DataSnapshot temp: dataSnapshot.getChildren()){
-                    String personName=temp.getValue(String.class);
-                    System.err.println("Arkadaş Listesi: "+personName);
-                    Toast.makeText(AdminActivity.this, "Arkadaş Listesi: "+personName, Toast.LENGTH_LONG).show();
+            public void onDataChange(DataSnapshot snapshot) {
+                DataSnapshot dataSnapshot = snapshot.child("new_user");
+                for (DataSnapshot temp : dataSnapshot.getChildren()) {
+                    String personName = temp.getValue(String.class);
+                    System.err.println("Arkadaş Listesi: " + personName);
+                    Toast.makeText(AdminActivity.this, "Arkadaş Listesi: " + personName, Toast.LENGTH_LONG).show();
 
                     databaseReferencesParentRoot.orderByChild("mail_addresim").equalTo(personName).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                            for(DataSnapshot tempDetail: snapshot.getChildren()){
-                                Map<String,String> personDetail= (Map<String, String>) tempDetail.getValue();
-                                System.out.println("Resim Path: "+personDetail.get("resimim"));
+                            for (DataSnapshot tempDetail : snapshot.getChildren()) {
+                                Map<String, String> personDetail = (Map<String, String>) tempDetail.getValue();
+                                System.out.println("Resim Path: " + personDetail.get("resimim"));
 
-                                mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"),personDetail.get("resimim")));
-                                Toast.makeText(AdminActivity.this, mListAdapter+" ", Toast.LENGTH_LONG).show();
+                                mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"), personDetail.get("resimim")));
+                                Toast.makeText(AdminActivity.this, mListAdapter + " ", Toast.LENGTH_LONG).show();
                             } //end for
 
                             //listeyi yenilemek
@@ -401,8 +490,8 @@ public class AdminActivity extends AppCompatActivity {
         }); // end  ref1.addValueEventListener
 
         //listView göstermek
-        listAdapter=new AdminListAdapter(getApplicationContext(),mListAdapter);
-        listView=findViewById(R.id.listView_person);
+        listAdapter = new AdminListAdapter(getApplicationContext(), mListAdapter);
+        listView = findViewById(R.id.listView_person);
         listView.setAdapter(listAdapter);
         listView.invalidateViews();
 
