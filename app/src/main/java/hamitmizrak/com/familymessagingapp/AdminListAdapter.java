@@ -53,7 +53,7 @@ public class AdminListAdapter extends BaseAdapter {
 
         //Resim
         Picasso.with(context).setLoggingEnabled(true);
-        Picasso.with(context).load(listViewAdapters.get(i).getImage()).placeholder(R.drawable.avatar2).resize(30,40).into(circleImageView);
+        Picasso.with(context).load(listViewAdapters.get(i).getImage()).placeholder(R.drawable.avatar2).resize(100,100).into(circleImageView);
         return view1;
     }
 }
