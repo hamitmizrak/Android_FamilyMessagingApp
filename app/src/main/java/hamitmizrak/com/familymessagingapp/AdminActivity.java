@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -51,11 +52,11 @@ import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity {
     //global variable
+
+    // wifi
     WifiManager wifiManager = null;
-
-    //wifi için sayaç
-     static int wifiCounter=0;
-
+    // wifi için sayaç
+    static int wifiCounter = 0;
 
     //admin giriş yapıldığı hangi kullanıcı olduğunu anlamak için
     private TextView userEmailAddressId;
@@ -75,7 +76,6 @@ public class AdminActivity extends AppCompatActivity {
 
     // Resim Galeri işlemi için ekledim (Res55)
     private final static int PICTURE_CONST = 44;
-
 
     //Realtime database için
     private DatabaseReference databaseReferances;
@@ -177,7 +177,7 @@ public class AdminActivity extends AppCompatActivity {
             //kapalı olan açmak için
             wifiManager.setWifiEnabled(true);
             Toast.makeText(this, "Wifi Açıldı", Toast.LENGTH_LONG).show();
-        }else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_ENABLING){
+        } else if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLING) {
             Toast.makeText(this, "Wifi Zaten açılmış", Toast.LENGTH_LONG).show();
         }
     }
@@ -189,7 +189,7 @@ public class AdminActivity extends AppCompatActivity {
             //açık olanı kapatmak  için
             wifiManager.setWifiEnabled(false);
             Toast.makeText(this, "Wifi kapatıldı", Toast.LENGTH_LONG).show();
-        }else if(wifiManager.getWifiState()==WifiManager.WIFI_STATE_DISABLING){
+        } else if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLING) {
             Toast.makeText(this, "Wifi zaten kapalı ", Toast.LENGTH_LONG).show();
         }
     }
@@ -271,7 +271,6 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminPersonId:
                 Toast.makeText(this, "Kişi Seçildi", Toast.LENGTH_SHORT).show();
-
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 //Custom Dialog object
                 //Android View
@@ -288,7 +287,6 @@ public class AdminActivity extends AppCompatActivity {
                 buttonAddPerson.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         if (!editTextAddPersonMailId.getText().toString().isEmpty()) {
                             addPersonEmail = editTextAddPersonMailId.getText().toString();
                             editTextAddPersonMailId.setText("");
@@ -304,11 +302,9 @@ public class AdminActivity extends AppCompatActivity {
                                                 System.out.println("Resim: " + personDetail.get("resimim"));
                                                 DatabaseReference searchDatabaseReferences = databaseReferances.child(firebaseAuth.getCurrentUser().getUid()).child("new_user");
                                                 searchDatabaseReferences.push().setValue(personDetail.get("mail_addresim"));
-
                                                 Toast.makeText(AdminActivity.this, "LİST: " + mListAdapter, Toast.LENGTH_SHORT).show();
                                             }
                                             Toast.makeText(AdminActivity.this, "Kişi Başarılı olarak Eklendi", Toast.LENGTH_SHORT).show();
-
                                         }
 
                                         @Override
@@ -316,7 +312,6 @@ public class AdminActivity extends AppCompatActivity {
                                             Toast.makeText(AdminActivity.this, "Sorgualamada hata meydana geldi", Toast.LENGTH_SHORT).show();
                                         }
                                     });//end addListenerForSingleValueEvent
-
                         } //end if
                     } //end onClick
                 }); //end setOnClickListener
@@ -329,12 +324,12 @@ public class AdminActivity extends AppCompatActivity {
 
             case R.id.adminWifiId:
                 Toast.makeText(this, "Wifi Seçildi", Toast.LENGTH_SHORT).show();
-                        if(wifiCounter%2==0){
-                            wifiOpen();
-                        }else{
-                            wifiClose();
-                        }
-                        wifiCounter++;
+                if (wifiCounter % 2 == 0) {
+                    wifiOpen();
+                } else {
+                    wifiClose();
+                }
+                wifiCounter++;
                 break;
 
             case R.id.adminMenuChronometerId:
@@ -458,14 +453,12 @@ public class AdminActivity extends AppCompatActivity {
                     String personName = temp.getValue(String.class);
                     System.err.println("Arkadaş Listesi: " + personName);
                     Toast.makeText(AdminActivity.this, "Arkadaş Listesi: " + personName, Toast.LENGTH_LONG).show();
-
                     databaseReferencesParentRoot.orderByChild("mail_addresim").equalTo(personName).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot tempDetail : snapshot.getChildren()) {
                                 Map<String, String> personDetail = (Map<String, String>) tempDetail.getValue();
                                 System.out.println("Resim Path: " + personDetail.get("resimim"));
-
                                 mListAdapter.add(new AdminListViewAdapter(personDetail.get("mail_addresim"), personDetail.get("resimim")));
                                 Toast.makeText(AdminActivity.this, mListAdapter + " ", Toast.LENGTH_LONG).show();
                             } //end for
@@ -480,9 +473,8 @@ public class AdminActivity extends AppCompatActivity {
                         }
                     });
                 }
-
             }
-
+            //onCancelled
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(AdminActivity.this, "internetiniz veya bağlantı sorunu yaşıyorsunuz sonra tekrar deneyiniz", Toast.LENGTH_LONG).show();
@@ -494,6 +486,18 @@ public class AdminActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView_person);
         listView.setAdapter(listAdapter);
         listView.invalidateViews();
+
+        //MessageActivity
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //activity_admin.xml
+                TextView myEmailAddres=findViewById(R.id.userEmailAddressId);
+                Intent onlyPerson=new Intent(AdminActivity.this,MessageActivity.class);
+                onlyPerson.putExtra("userMailIndentData",myEmailAddres.getText().toString());
+                startActivity(onlyPerson);
+            }
+        });
 
     } // end onCreate
 }//end AdminActivity

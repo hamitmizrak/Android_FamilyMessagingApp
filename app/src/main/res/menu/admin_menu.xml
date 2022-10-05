@@ -10,8 +10,6 @@
         android:iconTint="#3290E3"
         app:showAsAction="always"/>
 
-
-
     <item
         android:title="Kişi"
         android:id="@+id/adminPersonId"/>

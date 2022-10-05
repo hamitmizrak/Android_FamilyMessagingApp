@@ -251,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //Kullanıcının verilerini almak
         // userEmailAddress = editTextLoginMailAddress.getText().toString();
         //userPassword = editTextLoginPassword.getText().toString();

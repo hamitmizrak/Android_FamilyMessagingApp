@@ -143,7 +143,7 @@ public class TelephoneLoginActivity extends AppCompatActivity {
                 edit_text_phoneCodeId.setVisibility(View.VISIBLE);
             }//onCodeSent
         };//end callbackData
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         //confirmationButtonId on Click Listener
         confirmationButtonId.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,6 @@ public class TelephoneLoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 firebaseUser=firebaseAuth.getCurrentUser();
                                 databaseReference= FirebaseDatabase.getInstance().getReference().child("persons").child(firebaseUser.getUid());
-
                                 //Kullanıcı sisteme girmişse tekrar tekrar sisteme girmesini önlemek
                                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override

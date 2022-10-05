@@ -14,6 +14,7 @@ public class ChronometerActivity extends AppCompatActivity {
     //Toolbar(Menu)
     private Toolbar toolbar;
 
+    // button
     Button chronometerStartId;
     Button chronometerPauseId;
     Button chronometerRestartId;
@@ -35,7 +36,6 @@ public class ChronometerActivity extends AppCompatActivity {
         chronometerPauseId=findViewById(R.id.chronometerPauseId);
         chronometerRestartId=findViewById(R.id.chronometerRestartId);
 
-
         //Kronometreimplementation 'com.squareup.picasso:picasso:2.5.2'
         Chronometer chronometer=findViewById(R.id.chronometer2);
 
@@ -45,7 +45,6 @@ public class ChronometerActivity extends AppCompatActivity {
                 chronometer.start();
             }
         });
-
 
         chronometerPauseId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +63,6 @@ public class ChronometerActivity extends AppCompatActivity {
         //devam edelim
         //Menu eklenmesi
         //menu Hamburger Menu (White)
-
 
         //end code
     } // end onCreate
