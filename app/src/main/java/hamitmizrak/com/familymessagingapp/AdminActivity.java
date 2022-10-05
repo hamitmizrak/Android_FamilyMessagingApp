@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -220,6 +223,11 @@ public class AdminActivity extends AppCompatActivity {
         try {
             WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                return null;
+            }
             return wifiInfo.getMacAddress();
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,6 +346,11 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(chronometerPage);
                 break;
 
+            case R.id.adminMailSendId:
+                Toast.makeText(this, "Mail Gönderme Alanı", Toast.LENGTH_SHORT).show();
+                Intent emailSendIntent = new Intent(AdminActivity.this, EmailSendActivity.class);
+                startActivity(emailSendIntent);
+                break;
 
             case R.id.adminMenuLogoutId:
                 if (firebaseUser != null) {

@@ -29,6 +29,9 @@
         android:theme="@style/Theme.FamilyMessagingApp"
         tools:targetApi="31">
         <activity
+            android:name=".EmailSendActivity"
+            android:exported="false" />
+        <activity
             android:name=".MessageActivity"
             android:exported="false" />
         <activity

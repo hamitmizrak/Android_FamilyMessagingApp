@@ -35,6 +35,10 @@
         android:id="@+id/adminBackgroundColorId"/>
 
     <item
+        android:title="Mail Gönder"
+        android:id="@+id/adminMailSendId"/>
+
+    <item
         android:title="Çıkış"
         android:id="@+id/adminMenuLogoutId"/>
 </menu>
