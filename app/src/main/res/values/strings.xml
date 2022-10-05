@@ -11,5 +11,6 @@
     <string name="telephone_login_redirect">Telephone Validation Sayfasına Yönlendiliyorsunuz</string>
     <string name="login_faile">Sisteme giriş yaparken hata meydana geldi İnternetiniz veya kulanıcı yoktur</string>
     <string name="register">Register Sayfası</string>
+    <string name="email">Email</string>
 </resources>
 

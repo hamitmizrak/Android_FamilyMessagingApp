@@ -7,28 +7,48 @@
     tools:context=".MessageActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewMailAddresMessageId"
-        android:textColor="@color/purple_500"
-        android:text="Email Address "/>
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/email"
+        android:background="#4852E0"
+        android:textColor="#ffffff"
+        android:id="@+id/textViewMailAddresMessageId"/>
 
-  <!--  ImageView üstünde(layout_above) => imageViewmessageId
-    TextView altında(textViewMailAddresMessageId)  => textViewMailAddresMessageId-->
-    <ListView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listViewMessageId"
-        android:layout_above="@+id/imageViewmessageId"
-        android:layout_below="@+id/textViewMailAddresMessageId"/>
-    
+        android:layout_centerInParent="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="850dp"
+                android:layout_above="@+id/imageViewmessageId"
+                android:layout_below="@+id/textViewMailAddresMessageId"
+                android:layout_marginTop="45dp"
+                android:divider="#000000"
+                android:dividerHeight="10dp"
+                android:id="@+id/listViewMessageId"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!--  ImageView üstünde(layout_above) => imageViewmessageId
+  TextView altında(textViewMailAddresMessageId)  => textViewMailAddresMessageId-->
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/cellphone"
+        android:src="@drawable/send_message_icon"
         android:id="@+id/imageViewmessageId"
         android:layout_alignParentRight="true"
-       android:layout_alignParentBottom="true"   />
+        android:layout_alignParentBottom="true"   />
 
 
     <!--edit text message send-->
@@ -43,6 +63,9 @@
             android:id="@+id/editTextMessageEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mesag gönder"/>
+            android:hint="Mesaj gönder"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+
+
 </RelativeLayout>
