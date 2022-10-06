@@ -7,6 +7,7 @@
     tools:context=".MessageActivity">
 
     <TextView
+        android:id="@+id/textViewMailAddresMessageId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -15,8 +16,7 @@
         android:padding="8dp"
         android:text="@string/email"
         android:background="#4852E0"
-        android:textColor="#ffffff"
-        android:id="@+id/textViewMailAddresMessageId"/>
+        android:textColor="#ffffff" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,16 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <ListView
+                android:id="@+id/listViewMessageId"
                 android:layout_width="match_parent"
                 android:layout_height="850dp"
                 android:layout_above="@+id/imageViewmessageId"
                 android:layout_below="@+id/textViewMailAddresMessageId"
                 android:layout_marginTop="45dp"
                 android:divider="#000000"
-                android:dividerHeight="10dp"
-                android:id="@+id/listViewMessageId"/>
+                android:dividerHeight="10dp"/>
         </LinearLayout>
     </ScrollView>
 
@@ -43,29 +42,28 @@
     <!--  ImageView üstünde(layout_above) => imageViewmessageId
   TextView altında(textViewMailAddresMessageId)  => textViewMailAddresMessageId-->
     <ImageView
+        android:id="@+id/imageViewmessageId"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/send_message_icon"
-        android:id="@+id/imageViewmessageId"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"   />
 
 
     <!--edit text message send-->
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_toLeftOf="@+id/imageViewmessageId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/imageViewmessageId">
+        android:layout_alignParentStart="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextMessageEditText"
+
+            android:id="@+id/editTextMessageId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Mesaj gönder"/>
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
 </RelativeLayout>

@@ -505,7 +505,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //activity_admin.xml
-                TextView myEmailAddres=findViewById(R.id.userEmailAddressId);
+                TextView myEmailAddres=findViewById(R.id.textViewFriendEmail);
                 Intent onlyPerson=new Intent(AdminActivity.this,MessageActivity.class);
                 onlyPerson.putExtra("userMailIndentData",myEmailAddres.getText().toString());
                 startActivity(onlyPerson);
