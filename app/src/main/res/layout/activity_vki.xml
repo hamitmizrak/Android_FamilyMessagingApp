@@ -11,6 +11,12 @@
     android:padding="@dimen/padding_large"
     tools:context=".VkiActivity">
 
+    <!--toolbar eklemek-->
+   <!-- <include
+        android:id="@+id/vkiToolBarId"
+        layout="@layout/my_toolbar"
+         />-->
+
     <!--1.SATIR-->
     <TextView
         android:id="@+id/textViewVkiKiloId"
@@ -153,5 +159,4 @@
         android:layout_gravity="fill_horizontal"
         android:padding="8dp"/>
     <Space/>
-
 </GridLayout>

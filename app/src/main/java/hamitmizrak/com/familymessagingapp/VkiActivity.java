@@ -1,6 +1,7 @@
 package hamitmizrak.com.familymessagingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,10 @@ public class VkiActivity extends AppCompatActivity implements TextWatcher, SeekB
     private TextView textViewVkiBoyId;
     private TextView textViewVkiDurumId;
     private TextView textViewVkiIdealId;
+
+    //menu
+    //Toolbar(Menu)
+    private Toolbar myToolBarId;
 
     private double height = 0.0;
     private double weight = 70;
@@ -81,6 +86,13 @@ public class VkiActivity extends AppCompatActivity implements TextWatcher, SeekB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vki);
         //start code
+
+    /*    //Navbar id almak Toolbar id
+        myToolBarId = findViewById(R.id.vkiToolBarId);
+        myToolBarId.setTitle("Vki");
+        myToolBarId.setLogo(R.drawable.logo);
+        // myToolBarId.setNavigationIcon(R.drawable.logo);
+        setSupportActionBar(myToolBarId);*/
 
         //id Almak
         seekBarVkiId = findViewById(R.id.seekBarVkiId);
