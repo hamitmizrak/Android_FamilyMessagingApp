@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Family Messaging App</string>
+    <string name="hint_email">Your email address</string>
+    <string name="hint_password">Your password</string>
+    <string name="button_login">Login</string>
+    <string name="button_google">Google Sign In</string>
+    <string name="button_register">Are you want to register ?</string>
+    <string name="forgot_password">ı dont password</string>
+    <string name="button_telephone">Telephone</string>
+    <string name="admin_redirect">Admin page redirect</string>
+    <string name="telephone_login_redirect">Telephone validation</string>
+    <string name="register">Register Page</string>
+    <string name="email">Email</string>
+    <string name="sonuc">Result</string>
+    <string name="boy">Height (Cm)</string>
+    <string name="kilo">Weight (Kg)</string>
+    <string name="cinsiyet">Gender</string>
+    <string name="bay">Male</string>
+    <string name="bayan">Female</string>
+    <string name="zayif">Weak</string>
+    <string name="normal">Normal</string>
+    <string name="normal_arti">Overweight</string>
+    <string name="Kilolu">A litte Overweight</string>
+    <string name="fazla">important you are Overweightw</string>
+    <string name="obez">Obese</string>
+    <string name="dikkat">You should go to Hospital</string>
+    <string name="login_faile">"Failed System "</string>
+</resources>

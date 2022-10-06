@@ -12,5 +12,23 @@
     <string name="login_faile">Sisteme giriş yaparken hata meydana geldi İnternetiniz veya kulanıcı yoktur</string>
     <string name="register">Register Sayfası</string>
     <string name="email">Email</string>
+
+    <!--vki-->
+    <string name="sonuc">Sonuç</string>
+    <string name="boy">Boyunuz (Cm)</string>
+    <string name="kilo">Kilo (Kg)</string>
+    <string name="cinsiyet">Cinsiyet</string>
+    <string name="bay">Bay</string>
+    <string name="bayan">Bayan</string>
+    <string name="zayif">Zayıfsınız</string>
+    <string name="normal">Kilolunuz Normal</string>
+    <string name="normal_arti">Kiloluk Biraz fazla</string>
+    <string name="Kilolu">Kilonuz normalden fazla</string>
+    <string name="fazla">Kilolunuz Fazla Dikkat</string>
+    <string name="obez">Obezsiniz</string>
+    <string name="dikkat">Hastane görünmenizde fayda var.</string>
+    <string name="ideal">ideal kilonuz</string>
+
+
 </resources>
 

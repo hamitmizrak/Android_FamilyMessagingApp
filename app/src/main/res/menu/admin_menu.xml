@@ -39,6 +39,10 @@
         android:id="@+id/adminMailSendId"/>
 
     <item
+        android:title="Vücut Kitle indesi"
+        android:id="@+id/adminMenuVkiId"/>
+
+    <item
         android:title="Çıkış"
         android:id="@+id/adminMenuLogoutId"/>
 </menu>

@@ -352,6 +352,12 @@ public class AdminActivity extends AppCompatActivity {
                 startActivity(emailSendIntent);
                 break;
 
+            case R.id.adminMenuVkiId:
+                Toast.makeText(this, "Vücut Kitle indesi", Toast.LENGTH_SHORT).show();
+                Intent vkiIntent = new Intent(AdminActivity.this, VkiActivity.class);
+                startActivity(vkiIntent);
+                break;
+
             case R.id.adminMenuLogoutId:
                 if (firebaseUser != null) {
                     firebaseAuth.signOut();

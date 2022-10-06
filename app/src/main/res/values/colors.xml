@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--vki-->
+    <color name="zayif">#7ABCDE</color>
+    <color name="normal">#9760E5</color>
+    <color name="normal_arti">#F17F76</color>
+    <color name="Kilolu">#DB4F44</color>
+    <color name="fazla">#DB3123</color>
+    <color name="obez">#C94034</color>
+    <color name="dikkat">#F61300</color>
 </resources>
